@@ -4,8 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { Moon, Sun } from "lucide-react"
 import { flushSync } from "react-dom"
 
-import { cn } from "@/lib/utils"
-
 export type TransitionVariant = "circle"
 
 export interface AnimatedThemeTogglerProps
@@ -227,7 +225,7 @@ export const AnimatedThemeToggler = ({
       type="button"
       ref={buttonRef}
       onClick={toggleTheme}
-      className={cn(className)}
+      className={className}
       aria-label="Toggle dark mode"
       {...props}
     >

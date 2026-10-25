@@ -4,8 +4,21 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Gallexy Services | Phone Repairs, Made Simple',
-  description: 'Gallexy Services provides reliable mobile phone repair assistance in Chalakudy, Kerala. Contact us to discuss your device and get a repair estimate.',
-  generator: 'v0.app',
+  description:
+    'Gallexy Services provides reliable mobile phone repair assistance in Chalakudy, Kerala. Contact us to discuss your device and get a repair estimate.',
+  metadataBase: new URL('https://gallexyservices.com'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Gallexy Services | Phone Repairs, Made Simple',
+    description:
+      'Gallexy Services provides reliable mobile phone repair assistance in Chalakudy, Kerala. Contact us to discuss your device and get a repair estimate.',
+    url: 'https://gallexyservices.com',
+    siteName: 'Gallexy Services',
+    locale: 'en_IN',
+    type: 'website',
+  },
   icons: {
     icon: [
       {

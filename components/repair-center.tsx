@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
   ArrowRight,
@@ -34,9 +34,9 @@ const mapsUrl =
   'https://www.google.com/maps/place/Galaxy+services/@10.3022082,76.3356451,19.62z/data=!4m6!3m5!1s0x3b0803a3a3458ead:0x5d92b40509f9c5e2!8m2!3d10.3021022!4d76.3361788!16s%2Fg%2F11gjqp92bm?entry=ttu'
 const mapsEmbedUrl =
   'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d980.7!2d76.3356451!3d10.3022082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b0803a3a3458ead%3A0x5d92b40509f9c5e2!2sGalaxy%20services!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin'
-const galaxyLogo = '/images/gallexy-logo-trimmed.png'
-const galaxyWordmark = '/images/gallexy-logo-trimmed.png'
-const galaxyEmblem = '/images/galaxy-emblem.png'
+const galaxyLogo = '/images/gallexy-logo-trimmed.webp'
+const galaxyWordmark = '/images/gallexy-logo-trimmed.webp'
+const galaxyEmblem = '/images/galaxy-emblem.webp'
 
 const brandLogos = [
   { src: '/images/logos/xiaomi.svg', alt: 'Xiaomi', title: 'Xiaomi' },
@@ -139,7 +139,7 @@ const faqs = [
 
 const easeOutCustom = [0.22, 1, 0.36, 1] as const
 
-function SectionHeading({
+const SectionHeading = memo(function SectionHeading({
   eyebrow,
   title,
   children,
@@ -162,10 +162,77 @@ function SectionHeading({
       {children}
     </motion.div>
   )
-}
+})
+
+const FaqAccordion = memo(function FaqAccordion({
+  faqs,
+  shouldReduceMotion,
+}: {
+  faqs: Array<{ q: string; a: string }>
+  shouldReduceMotion: boolean | null
+}) {
+  const [openFaq, setOpenFaq] = useState<number | null>(0)
+
+  return (
+    <motion.div
+      className="faq-list"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            staggerChildren: shouldReduceMotion ? 0 : 0.07,
+          },
+        },
+      }}
+    >
+      {faqs.map((faq, i) => (
+        <motion.div
+          className={`faq-item ${openFaq === i ? 'is-open' : ''}`}
+          key={faq.q}
+          variants={{
+            hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.45, ease: easeOutCustom },
+            },
+          }}
+        >
+          <button
+            onClick={() => setOpenFaq((prev) => (prev === i ? null : i))}
+            aria-expanded={openFaq === i}
+          >
+            <span>{faq.q}</span>
+            <ChevronDown />
+          </button>
+          <AnimatePresence initial={false}>
+            {openFaq === i && (
+              <motion.div
+                className="faq-answer"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={
+                  shouldReduceMotion
+                    ? { duration: 0 }
+                    : { duration: 0.28, ease: [0.16, 1, 0.3, 1] }
+                }
+              >
+                <p>{faq.a}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      ))}
+    </motion.div>
+  )
+})
 
 export default function RepairCenter() {
-  const [openFaq, setOpenFaq] = useState<number | null>(0)
   const [dark, setDark] = useState(false)
   const [activeHref, setActiveHref] = useState('#top')
   const shouldReduceMotion = useReducedMotion()
@@ -252,25 +319,37 @@ export default function RepairCenter() {
 
   useEffect(() => {
     const sectionIds = ['top', 'services', 'location', 'reviews', 'faqs']
+    let rafId: number | null = null
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 200
+      let nextActive = '#top'
+
       for (let i = sectionIds.length - 1; i >= 0; i--) {
         const id = sectionIds[i]
         const element = document.getElementById(id)
-        if (element) {
-          const top = element.offsetTop
-          if (scrollPosition >= top) {
-            setActiveHref(`#${id}`)
-            return
-          }
+        if (element && scrollPosition >= element.offsetTop) {
+          nextActive = `#${id}`
+          break
         }
       }
-      setActiveHref('#top')
+
+      setActiveHref((prev) => (prev === nextActive ? prev : nextActive))
+      rafId = null
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    const onScroll = () => {
+      if (rafId === null) {
+        rafId = window.requestAnimationFrame(handleScroll)
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
     handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (rafId !== null) window.cancelAnimationFrame(rafId)
+    }
   }, [])
 
   const navItems = [
@@ -694,61 +773,7 @@ export default function RepairCenter() {
         <section className="faq-section section-space" id="faqs">
           <div className="narrow-wrap">
             <SectionHeading eyebrow="Need to know" title="Questions, answered." />
-            <motion.div
-              className="faq-list"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.15 }}
-              variants={{
-                hidden: { opacity: 0 },
-                visible: {
-                  opacity: 1,
-                  transition: {
-                    staggerChildren: shouldReduceMotion ? 0 : 0.07,
-                  },
-                },
-              }}
-            >
-              {faqs.map((faq, i) => (
-                <motion.div
-                  className={`faq-item ${openFaq === i ? 'is-open' : ''}`}
-                  key={faq.q}
-                  variants={{
-                    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      transition: { duration: 0.45, ease: easeOutCustom },
-                    },
-                  }}
-                >
-                  <button
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    aria-expanded={openFaq === i}
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown />
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {openFaq === i && (
-                      <motion.div
-                        className="faq-answer"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={
-                          shouldReduceMotion
-                            ? { duration: 0 }
-                            : { duration: 0.28, ease: [0.16, 1, 0.3, 1] }
-                        }
-                      >
-                        <p>{faq.a}</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              ))}
-            </motion.div>
+            <FaqAccordion faqs={faqs} shouldReduceMotion={shouldReduceMotion} />
           </div>
         </section>
       </main>
@@ -765,8 +790,22 @@ export default function RepairCenter() {
           {/* Column 1 — Brand */}
           <div className="footer-col footer-col-brand">
             <a href="#top" className="footer-brand" aria-label="Gallexy Services home">
-              <img className="footer-logo-emblem" src={galaxyEmblem} alt="Gallexy" />
-              <img className="footer-logo-wordmark" src={galaxyWordmark} alt="Gallexy Services" />
+              <img
+                className="footer-logo-emblem"
+                src={galaxyEmblem}
+                alt="Gallexy"
+                width={32}
+                height={32}
+                loading="lazy"
+              />
+              <img
+                className="footer-logo-wordmark"
+                src={galaxyWordmark}
+                alt="Gallexy Services"
+                width={118}
+                height={20}
+                loading="lazy"
+              />
             </a>
             <p className="footer-tagline">Phone repairs, made simple.</p>
             <p className="footer-subtext">
