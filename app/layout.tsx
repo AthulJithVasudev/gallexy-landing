@@ -3,8 +3,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Gallexy | Same-Day Mobile Phone Repairs',
-  description: 'Gallexy provides fast, reliable mobile phone repairs in Chalakudy, Kerala. Walk in or WhatsApp for same-day service.',
+  title: 'Gallexy Services | Phone Repairs, Made Simple',
+  description: 'Gallexy Services provides reliable mobile phone repair assistance in Chalakudy, Kerala. Contact us to discuss your device and get a repair estimate.',
   generator: 'v0.app',
   icons: {
     icon: [
