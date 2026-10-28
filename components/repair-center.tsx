@@ -27,6 +27,7 @@ import {
 import PillNav from './PillNav'
 import LogoLoop from './LogoLoop'
 import { AnimatedThemeToggler } from './ui/animated-theme-toggler'
+import { WhatsAppIcon } from './whatsapp-icon'
 
 const phone = '+919876543210'
 const whatsapp = 'https://wa.me/919876543210'
@@ -290,12 +291,11 @@ export default function RepairCenter() {
 
   const serviceCardVariants = {
     hidden: shouldReduceMotion
-      ? { opacity: 1, y: 0, scale: 1 }
-      : { opacity: 0, y: 18, scale: 0.97 },
+      ? { opacity: 1, y: 0 }
+      : { opacity: 0, y: 16 },
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1,
       transition: {
         duration: 0.5,
         ease: easeOutCustom,
@@ -432,7 +432,7 @@ export default function RepairCenter() {
             >
               <motion.a
                 variants={heroButtonVariants}
-                className="button button-red"
+                className="button button-red hero-call-btn"
                 href={`tel:${phone}`}
               >
                 <Phone /> Call Now
@@ -444,7 +444,7 @@ export default function RepairCenter() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <MessageCircle /> WhatsApp Us
+                <WhatsAppIcon /> WhatsApp Us
               </motion.a>
             </motion.div>
             <motion.div
@@ -570,8 +570,6 @@ export default function RepairCenter() {
                   rel="noopener noreferrer"
                   className="service-card"
                   variants={serviceCardVariants}
-                  whileHover={shouldReduceMotion ? undefined : { y: -4, transition: { duration: 0.2, ease: easeOutCustom } }}
-                  whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                   aria-label={`Enquire about ${service.title} on WhatsApp`}
                 >
                   <div className="service-card-top">
@@ -579,7 +577,7 @@ export default function RepairCenter() {
                       <Icon />
                     </div>
                     <span className="service-wa-indicator" title="Enquire on WhatsApp">
-                      <MessageCircle />
+                      <WhatsAppIcon />
                     </span>
                   </div>
                   <h3>{service.title}</h3>
@@ -668,15 +666,15 @@ export default function RepairCenter() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <MessageCircle /> WhatsApp Us
+                  <WhatsAppIcon /> WhatsApp Us
                 </a>
                 <a
-                  className="button button-outline"
+                  className="button button-outline button-with-arrow"
                   href={mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Navigation /> Get Directions
+                  Get Directions <ArrowRight className="arrow-icon" />
                 </a>
               </div>
             </motion.div>
@@ -813,7 +811,7 @@ export default function RepairCenter() {
             </p>
             <div className="footer-social-links">
               <a href={whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-                <MessageCircle />
+                <WhatsAppIcon />
               </a>
               <a href={mapsUrl} target="_blank" rel="noopener noreferrer" aria-label="Google Maps">
                 <MapPin />
@@ -857,7 +855,7 @@ export default function RepairCenter() {
                 rel="noopener noreferrer"
                 className="footer-directions-btn"
               >
-                <Navigation /> Get Directions
+                Get Directions <ArrowRight className="arrow-icon" />
               </a>
             </div>
           </div>
@@ -885,7 +883,7 @@ export default function RepairCenter() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <MessageCircle /> WhatsApp
+          <WhatsAppIcon /> WhatsApp
         </a>
       </div>
     </div>
