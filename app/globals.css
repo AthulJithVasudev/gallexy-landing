@@ -8,6 +8,59 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 
+#top,
+#services,
+#location,
+#faqs {
+  scroll-margin-top: 96px;
+}
+
+h1, h2, h3, h4 {
+  text-wrap: balance;
+}
+
+p, .hero-lede {
+  text-wrap: pretty;
+}
+
+.skip-link {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.2);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+/* Global Visible Focus States */
+.button:focus-visible,
+.nav-call-btn:focus-visible,
+.nav-action-btn:focus-visible,
+.service-card:focus-visible,
+.services-cta-link:focus-visible,
+.footer-directions-btn:focus-visible,
+.footer-links a:focus-visible,
+.footer-social-links a:focus-visible,
+.faq-item button:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}
+
 /* View Transitions for Animated Theme Toggler */
 ::view-transition-old(root),
 ::view-transition-new(root) {
@@ -83,7 +136,7 @@ button { font: inherit; }
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   cursor: pointer;
-  outline: none;
+  
   transition: transform .2s ease, background .2s ease;
 }
 .nav-action-btn:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.95); }
@@ -167,10 +220,7 @@ button { font: inherit; }
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-  will-change: transform;
-  /* Hover lift over about 200ms */
-  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
               background 200ms ease,
               border-color 200ms ease;
 }
@@ -191,7 +241,6 @@ button { font: inherit; }
 /* Hover lift (desktop): button rises 2px and shadow deepens slightly over about 200ms */
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
-    transform: translateY(-2px);
     box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.14);
   }
 
@@ -215,13 +264,7 @@ button { font: inherit; }
   }
 }
 
-/* Press feedback (mobile and desktop): button scales to about 0.97 while tapped */
-.button:active,
-.nav-call-btn:active,
-.mobile-bottom-bar .button:active {
-  transform: scale(0.97) !important;
-  transition: transform 80ms ease !important;
-}
+
 
 .button svg {
   width: 17px;
@@ -265,27 +308,8 @@ button { font: inherit; }
   }
 }
 
-/* Call-now pulse: soft ring that pulses once every few seconds on the main Call button */
-@keyframes call-now-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.52), 0 4px 14px -2px rgba(220, 38, 38, 0.35);
-  }
-  65% {
-    box-shadow: 0 0 0 11px rgba(220, 38, 38, 0), 0 4px 14px -2px rgba(220, 38, 38, 0.35);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0), 0 4px 14px -2px rgba(220, 38, 38, 0.35);
-  }
-}
-
-.hero-call-btn {
-  animation: call-now-pulse 3.5s cubic-bezier(0.25, 0, 0.35, 1) infinite;
-}
-
 @media (hover: hover) and (pointer: fine) {
   .hero-call-btn:hover {
-    animation: none;
-    transform: translateY(-2px);
     box-shadow: 0 8px 22px -3px rgba(220, 38, 38, 0.55);
   }
 }
@@ -335,23 +359,11 @@ button { font: inherit; }
 .trust-row span { display: inline-flex; align-items: center; gap: 6px; }
 .trust-row svg { width: 13px; height: 13px; padding: 2px; color: white; background: #22c55e; border-radius: 50%; }
 
-/* Hero illustration: very slow float, moving up and down about 8px over 5 to 6 seconds */
-@keyframes heroFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
 .hero-visual {
   position: relative;
   min-height: 460px;
   display: grid;
   place-items: center;
-  animation: heroFloat 5.5s ease-in-out infinite;
-  will-change: transform;
 }
 .hero-orbit { position: absolute; border: 1px solid var(--border); border-radius: 50%; transform: rotate(-24deg); }
 .orbit-one { width: 380px; height: 230px; }
@@ -370,16 +382,7 @@ button { font: inherit; }
 .note-top { top: 54px; right: 16px; }
 .note-bottom { bottom: 49px; left: 5px; }
 .note-bottom svg { color: #eab308; }
-@keyframes floatGentleA {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-@keyframes floatGentleB {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(4px); }
-}
-.note-top .floating-note-inner { animation: floatGentleA 4.8s ease-in-out infinite; }
-.note-bottom .floating-note-inner { animation: floatGentleB 5.4s ease-in-out infinite 0.6s; }
+
 .brand-strip { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; min-height: 110px; padding: 36px 0 30px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; text-align: center; }
 .strip-label { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 14px; }
 .strip-label::before, .strip-label::after { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--border); }
@@ -418,16 +421,13 @@ button { font: inherit; }
   color: inherit;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
               border-color 200ms ease;
-  will-change: transform;
 }
 
 /* Hover lift (desktop): the card rises 4px and a slight red shadow deepens behind it */
 @media (hover: hover) and (pointer: fine) {
   .service-card:hover {
-    transform: translateY(-4px);
     box-shadow: 0 16px 36px -6px rgba(220, 38, 38, 0.16), 0 4px 14px -2px rgba(17, 24, 39, 0.06);
     border-color: color-mix(in srgb, var(--red) 45%, var(--border));
   }
@@ -438,10 +438,7 @@ button { font: inherit; }
   }
 }
 
-.service-card:active {
-  transform: scale(0.98);
-  transition-duration: 80ms;
-}
+
 
 .service-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
 
@@ -540,10 +537,8 @@ button { font: inherit; }
   border-radius: 18px;
   background: var(--card);
   box-shadow: 0 10px 30px -10px #1118270a;
-  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
               border-color 200ms ease;
-  will-change: transform;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -584,7 +579,7 @@ button { font: inherit; }
 .footer-tagline { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: -0.02em; color: var(--foreground); }
 .footer-subtext { margin: 0; font-size: 13px; line-height: 1.55; color: var(--muted); max-width: 290px; }
 .footer-social-links { display: flex; gap: 10px; margin-top: 6px; }
-.footer-social-links a { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 50%; color: var(--muted); transition: transform .24s cubic-bezier(0.16, 1, 0.3, 1), color .2s ease, border-color .2s ease, box-shadow .24s cubic-bezier(0.16, 1, 0.3, 1); }
+.footer-social-links a { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 50%; color: var(--muted); transition: transform .24s cubic-bezier(0.16, 1, 0.3, 1), color .2s ease, border-color .2s ease, box-shadow .24s cubic-bezier(0.16, 1, 0.3, 1); }
 .footer-social-links a:hover { color: var(--red); border-color: var(--red); transform: translateY(-3px) scale(1.08); box-shadow: 0 6px 16px -2px rgba(220, 38, 38, 0.28); }
 .footer-social-links a:active { transform: translateY(0) scale(0.94); transition-duration: 0.08s; }
 .footer-social-links svg { width: 15px; height: 15px; transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -666,10 +661,6 @@ button { font: inherit; }
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .note-top .floating-note-inner,
-  .note-bottom .floating-note-inner,
-  .hero-visual,
-  .hero-call-btn,
   .button-red:hover svg,
   .nav-call-btn:hover svg,
   .button-whatsapp:hover svg,

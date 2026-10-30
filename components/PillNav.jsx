@@ -749,7 +749,11 @@ const PillNav = ({
         <span ref={logoRef} className={[LOGO, joined ? '' : SURFACE].filter(Boolean).join(' ')}>
           <LinkComponent href={logoHref} className={LOGO_LINK} aria-label={logoAlt} onPointerEnter={spin}>
             <span ref={markRef} className={MARK}>
-              {typeof logo === 'string' ? <img src={logo} alt="" draggable={false} /> : logo}
+              {typeof logo === 'string' ? (
+                <img src={logo} alt="" width={95} height={20} fetchPriority="high" draggable={false} />
+              ) : (
+                logo
+              )}
             </span>
           </LinkComponent>
           {!joined && <span className={RIM} />}

@@ -384,6 +384,7 @@
 }
 
 .pill-nav__panel {
+  overscroll-behavior: contain;
   position: absolute;
   top: 0;
   right: 0;

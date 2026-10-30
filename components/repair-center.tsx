@@ -1,6 +1,6 @@
 'use client'
 
-import { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
   ArrowRight,
@@ -10,17 +10,13 @@ import {
   ChevronDown,
   Clock3,
   Droplets,
-  ExternalLink,
   MapPin,
-  MessageCircle,
   Mic2,
-  Navigation,
   Phone,
   PlugZap,
   ShieldCheck,
   Smartphone,
   Sparkles,
-  Star,
   Unlock,
   Wrench,
 } from 'lucide-react'
@@ -40,14 +36,14 @@ const galaxyWordmark = '/images/gallexy-logo-trimmed.webp'
 const galaxyEmblem = '/images/galaxy-emblem.webp'
 
 const brandLogos = [
-  { src: '/images/logos/xiaomi.svg', alt: 'Xiaomi', title: 'Xiaomi' },
-  { src: '/images/logos/redmi.svg', alt: 'Redmi', title: 'Redmi' },
-  { src: '/images/logos/cmf.svg', alt: 'CMF', title: 'CMF' },
-  { src: '/images/logos/nothing.svg', alt: 'Nothing', title: 'Nothing' },
-  { src: '/images/logos/xiaomi.svg', alt: 'Xiaomi', title: 'Xiaomi' },
-  { src: '/images/logos/redmi.svg', alt: 'Redmi', title: 'Redmi' },
-  { src: '/images/logos/cmf.svg', alt: 'CMF', title: 'CMF' },
-  { src: '/images/logos/nothing.svg', alt: 'Nothing', title: 'Nothing' },
+  { src: '/images/logos/xiaomi.svg', alt: 'Xiaomi', title: 'Xiaomi', width: 32, height: 32 },
+  { src: '/images/logos/redmi.svg', alt: 'Redmi', title: 'Redmi', width: 80, height: 23 },
+  { src: '/images/logos/cmf.svg', alt: 'CMF', title: 'CMF', width: 48, height: 32 },
+  { src: '/images/logos/nothing.svg', alt: 'Nothing', title: 'Nothing', width: 100, height: 18 },
+  { src: '/images/logos/xiaomi.svg', alt: 'Xiaomi', title: 'Xiaomi', width: 32, height: 32 },
+  { src: '/images/logos/redmi.svg', alt: 'Redmi', title: 'Redmi', width: 80, height: 23 },
+  { src: '/images/logos/cmf.svg', alt: 'CMF', title: 'CMF', width: 48, height: 32 },
+  { src: '/images/logos/nothing.svg', alt: 'Nothing', title: 'Nothing', width: 100, height: 18 },
 ]
 
 const services = [
@@ -103,17 +99,6 @@ const services = [
 
 
 
-export interface VerifiedReview {
-  id: string
-  name: string
-  rating: number
-  text: string
-  date?: string
-  source?: string
-}
-
-// Configured verified customer reviews. Keep empty when no verified reviews have been provided.
-const verifiedReviews: VerifiedReview[] = []
 
 const faqs = [
   {
@@ -122,7 +107,7 @@ const faqs = [
   },
   {
     q: 'How long will a repair take?',
-    a: "Repair times depend on the fault, device model, and parts availability. We'll discuss the expected timeline once we understand the problem.",
+    a: 'Repair times depend on the fault, device model, and parts availability. We’ll discuss the expected timeline once we understand the problem.',
   },
   {
     q: 'Can I walk in for a repair?',
@@ -134,7 +119,7 @@ const faqs = [
   },
   {
     q: 'What if my phone cannot be repaired?',
-    a: "We'll explain what we find during the assessment and discuss the available options. Whether a repair is possible depends on the device and the nature of the damage.",
+    a: 'We’ll explain what we find during the assessment and discuss the available options. Whether a repair is possible depends on the device and the nature of the damage.',
   },
 ]
 
@@ -174,45 +159,60 @@ const FaqAccordion = memo(function FaqAccordion({
 }) {
   const [openFaq, setOpenFaq] = useState<number | null>(0)
 
+  const faqContainerVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: shouldReduceMotion ? 0 : 0.07,
+        },
+      },
+    }),
+    [shouldReduceMotion]
+  )
+
+  const faqItemVariants = useMemo(
+    () => ({
+      hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.45, ease: easeOutCustom },
+      },
+    }),
+    [shouldReduceMotion]
+  )
+
   return (
     <motion.div
       className="faq-list"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.15 }}
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren: shouldReduceMotion ? 0 : 0.07,
-          },
-        },
-      }}
+      variants={faqContainerVariants}
     >
       {faqs.map((faq, i) => (
         <motion.div
           className={`faq-item ${openFaq === i ? 'is-open' : ''}`}
           key={faq.q}
-          variants={{
-            hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
-            visible: {
-              opacity: 1,
-              y: 0,
-              transition: { duration: 0.45, ease: easeOutCustom },
-            },
-          }}
+          variants={faqItemVariants}
         >
           <button
+            id={`faq-btn-${i}`}
             onClick={() => setOpenFaq((prev) => (prev === i ? null : i))}
             aria-expanded={openFaq === i}
+            aria-controls={`faq-panel-${i}`}
           >
             <span>{faq.q}</span>
-            <ChevronDown />
+            <ChevronDown aria-hidden="true" />
           </button>
           <AnimatePresence initial={false}>
             {openFaq === i && (
               <motion.div
+                id={`faq-panel-${i}`}
+                role="region"
+                aria-labelledby={`faq-btn-${i}`}
                 className="faq-answer"
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
@@ -238,70 +238,88 @@ export default function RepairCenter() {
   const [activeHref, setActiveHref] = useState('#top')
   const shouldReduceMotion = useReducedMotion()
 
-  const heroActionsVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: shouldReduceMotion ? 0 : 0.08,
-        delayChildren: shouldReduceMotion ? 0 : 0.38,
+  const heroActionsVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: shouldReduceMotion ? 0 : 0.08,
+          delayChildren: shouldReduceMotion ? 0 : 0.38,
+        },
       },
-    },
-  }
+    }),
+    [shouldReduceMotion]
+  )
 
-  const heroButtonVariants = {
-    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: easeOutCustom },
-    },
-  }
-
-  const heroTrustVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: shouldReduceMotion ? 0 : 0.07,
-        delayChildren: shouldReduceMotion ? 0 : 0.48,
+  const heroButtonVariants = useMemo(
+    () => ({
+      hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.5, ease: easeOutCustom },
       },
-    },
-  }
+    }),
+    [shouldReduceMotion]
+  )
 
-  const heroTrustItemVariants = {
-    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.45, ease: easeOutCustom },
-    },
-  }
-
-  const servicesContainerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: shouldReduceMotion ? 0 : 0.07,
-        delayChildren: shouldReduceMotion ? 0 : 0.05,
+  const heroTrustVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: shouldReduceMotion ? 0 : 0.07,
+          delayChildren: shouldReduceMotion ? 0 : 0.48,
+        },
       },
-    },
-  }
+    }),
+    [shouldReduceMotion]
+  )
 
-  const serviceCardVariants = {
-    hidden: shouldReduceMotion
-      ? { opacity: 1, y: 0 }
-      : { opacity: 0, y: 16 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: easeOutCustom,
+  const heroTrustItemVariants = useMemo(
+    () => ({
+      hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.45, ease: easeOutCustom },
       },
-    },
-  }
+    }),
+    [shouldReduceMotion]
+  )
+
+  const servicesContainerVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: shouldReduceMotion ? 0 : 0.07,
+          delayChildren: shouldReduceMotion ? 0 : 0.05,
+        },
+      },
+    }),
+    [shouldReduceMotion]
+  )
+
+  const serviceCardVariants = useMemo(
+    () => ({
+      hidden: shouldReduceMotion
+        ? { opacity: 1, y: 0 }
+        : { opacity: 0, y: 16 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: 0.5,
+          ease: easeOutCustom,
+        },
+      },
+    }),
+    [shouldReduceMotion]
+  )
 
   useEffect(() => {
     const savedTheme = typeof window !== 'undefined' ? localStorage.getItem('theme') : null
@@ -318,7 +336,7 @@ export default function RepairCenter() {
   }, [])
 
   useEffect(() => {
-    const sectionIds = ['top', 'services', 'location', 'reviews', 'faqs']
+    const sectionIds = ['top', 'services', 'location', 'faqs']
     let rafId: number | null = null
 
     const handleScroll = () => {
@@ -356,7 +374,6 @@ export default function RepairCenter() {
     { label: 'Home', href: '#top' },
     { label: 'Services', href: '#services' },
     { label: 'Location', href: '#location' },
-    { label: 'Reviews', href: '#reviews' },
     { label: 'FAQs', href: '#faqs' },
   ]
 
@@ -389,7 +406,7 @@ export default function RepairCenter() {
             onThemeChange={(newTheme) => setDark(newTheme === 'dark')}
           />
           <a className="nav-call-btn" href={`tel:${phone}`} aria-label="Call Now">
-            <Phone /> <span>Call Now</span>
+            <Phone aria-hidden="true" /> <span>Call Now</span>
           </a>
         </div>
       </motion.header>
@@ -405,7 +422,7 @@ export default function RepairCenter() {
               transition={{ duration: 0.5, delay: 0.05, ease: easeOutCustom }}
             >
               <span className="pulse-dot" /> Open: Mon – Sat 10:30 AM – 7:00 PM{' '}
-              <span className="status-separator">•</span> Chalakudy
+              <span className="status-separator">•</span> <span translate="no">Chalakudy</span>
             </motion.div>
             <motion.h1
               initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
@@ -422,7 +439,7 @@ export default function RepairCenter() {
               transition={{ duration: 0.55, delay: 0.28, ease: easeOutCustom }}
             >
               From cracked screens to battery and charging issues, we help get your phone working again.
-              Tell us what&apos;s wrong, and we&apos;ll help you figure out the next step.
+              Tell us what’s wrong, and we’ll help you figure out the next step.
             </motion.p>
             <motion.div
               className="hero-actions"
@@ -434,8 +451,18 @@ export default function RepairCenter() {
                 variants={heroButtonVariants}
                 className="button button-red hero-call-btn"
                 href={`tel:${phone}`}
+                whileHover={
+                  shouldReduceMotion
+                    ? undefined
+                    : { y: -2, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }
+                }
+                whileTap={
+                  shouldReduceMotion
+                    ? undefined
+                    : { scale: 0.97, transition: { duration: 0.08 } }
+                }
               >
-                <Phone /> Call Now
+                <Phone aria-hidden="true" /> Call Now
               </motion.a>
               <motion.a
                 variants={heroButtonVariants}
@@ -443,6 +470,16 @@ export default function RepairCenter() {
                 href={whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
+                whileHover={
+                  shouldReduceMotion
+                    ? undefined
+                    : { y: -2, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }
+                }
+                whileTap={
+                  shouldReduceMotion
+                    ? undefined
+                    : { scale: 0.97, transition: { duration: 0.08 } }
+                }
               >
                 <WhatsAppIcon /> WhatsApp Us
               </motion.a>
@@ -454,13 +491,13 @@ export default function RepairCenter() {
               animate="visible"
             >
               <motion.span variants={heroTrustItemVariants}>
-                <Check /> Repair Estimates
+                <Check aria-hidden="true" /> Repair Estimates
               </motion.span>
               <motion.span variants={heroTrustItemVariants}>
-                <Check /> Repair Options
+                <Check aria-hidden="true" /> Repair Options
               </motion.span>
               <motion.span variants={heroTrustItemVariants}>
-                <Check /> Personalised Service
+                <Check aria-hidden="true" /> Personalised Service
               </motion.span>
             </motion.div>
           </div>
@@ -488,7 +525,7 @@ export default function RepairCenter() {
               <div className="phone-screen">
                 <span>09:41</span>
                 <div className="screen-glow" />
-                <Smartphone />
+                <Smartphone aria-hidden="true" />
               </div>
             </motion.div>
             <motion.div
@@ -498,7 +535,7 @@ export default function RepairCenter() {
               transition={{ duration: 0.55, delay: 0.62, ease: easeOutCustom }}
             >
               <div className="floating-note-inner">
-                <ShieldCheck />
+                <ShieldCheck aria-hidden="true" />
                 <span>
                   <strong>Assessment &amp; Care</strong>
                   <small>Device-specific advice</small>
@@ -512,7 +549,7 @@ export default function RepairCenter() {
               transition={{ duration: 0.55, delay: 0.74, ease: easeOutCustom }}
             >
               <div className="floating-note-inner">
-                <Sparkles />
+                <Sparkles aria-hidden="true" />
                 <span>
                   <strong>Clear Estimates</strong>
                   <small>Upfront discussion</small>
@@ -571,12 +608,22 @@ export default function RepairCenter() {
                   className="service-card"
                   variants={serviceCardVariants}
                   aria-label={`Enquire about ${service.title} on WhatsApp`}
+                  whileHover={
+                    shouldReduceMotion
+                      ? undefined
+                      : { y: -4, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }
+                  }
+                  whileTap={
+                    shouldReduceMotion
+                      ? undefined
+                      : { scale: 0.98, transition: { duration: 0.08 } }
+                  }
                 >
                   <div className="service-card-top">
                     <div className="service-icon">
-                      <Icon />
+                      <Icon aria-hidden="true" />
                     </div>
-                    <span className="service-wa-indicator" title="Enquire on WhatsApp">
+                    <span className="service-wa-indicator" aria-hidden="true">
                       <WhatsAppIcon />
                     </span>
                   </div>
@@ -594,14 +641,14 @@ export default function RepairCenter() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5, delay: 0.15, ease: easeOutCustom }}
           >
-            <span className="services-cta-prompt">Not sure what&apos;s wrong?</span>
+            <span className="services-cta-prompt">Not sure what’s wrong?</span>
             <a
               href={`${whatsapp}?text=${encodeURIComponent("Hi Gallexy Services, I'm not sure what's wrong with my phone and would like to ask about repair options.")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="services-cta-link"
             >
-              Ask us about your phone <ArrowRight />
+              Ask us about your phone <ArrowRight aria-hidden="true" />
             </a>
           </motion.div>
         </section>
@@ -629,9 +676,9 @@ export default function RepairCenter() {
               </SectionHeading>
 
               <div className="contact-detail">
-                <MapPin />
+                <MapPin aria-hidden="true" />
                 <div>
-                  <strong>Gallexy Services</strong>
+                  <strong><span translate="no">Gallexy Services</span></strong>
                   <p>
                     First Floor, Swarnam Arcade, KSRTC Bus Stand Rd
                     <br />
@@ -643,7 +690,7 @@ export default function RepairCenter() {
               </div>
 
               <div className="contact-detail">
-                <Clock3 />
+                <Clock3 aria-hidden="true" />
                 <div>
                   <strong>Working Hours</strong>
                   <p>
@@ -658,7 +705,7 @@ export default function RepairCenter() {
 
               <div className="location-actions">
                 <a className="button button-red button-prominent" href={`tel:${phone}`}>
-                  <Phone /> Call Now
+                  <Phone aria-hidden="true" /> Call Now
                 </a>
                 <a
                   className="button button-whatsapp"
@@ -674,7 +721,7 @@ export default function RepairCenter() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Get Directions <ArrowRight className="arrow-icon" />
+                  Get Directions <ArrowRight aria-hidden="true" className="arrow-icon" />
                 </a>
               </div>
             </motion.div>
@@ -694,77 +741,11 @@ export default function RepairCenter() {
                 referrerPolicy="no-referrer-when-downgrade"
               />
               <div className="map-badge">
-                <MapPin />
-                <span>Gallexy Services · Chalakudy</span>
+                <MapPin aria-hidden="true" />
+                <span><span translate="no">Gallexy Services</span> · <span translate="no">Chalakudy</span></span>
               </div>
             </motion.div>
           </motion.div>
-        </section>
-
-        {/* 6. CUSTOMER REVIEWS SECTION */}
-        <section className="section-wrap section-space" id="reviews">
-          <SectionHeading eyebrow="Real words. Real experiences." title="Real words. Real experiences.">
-            <p>See what customers have shared about their experience with us.</p>
-          </SectionHeading>
-
-          {verifiedReviews.length > 0 ? (
-            <motion.div
-              className="reviews-carousel-wrap"
-              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.55, ease: easeOutCustom }}
-            >
-              <div className="reviews-track">
-                {verifiedReviews.map((rev) => (
-                  <article key={rev.id} className="review-card">
-                    <div className="review-rating" aria-label={`${rev.rating} out of 5 stars`}>
-                      {Array.from({ length: 5 }).map((_, starIdx) => (
-                        <Star
-                          key={starIdx}
-                          className={starIdx < rev.rating ? 'star-filled' : 'star-empty'}
-                        />
-                      ))}
-                    </div>
-                    <p className="review-body">&ldquo;{rev.text}&rdquo;</p>
-                    <div className="review-meta">
-                      <strong className="review-author">{rev.name}</strong>
-                      {rev.date && <span className="review-date">{rev.date}</span>}
-                      {rev.source && <span className="review-source">{rev.source}</span>}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              className="reviews-empty-state"
-              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.55, ease: easeOutCustom }}
-            >
-              <div className="reviews-empty-inner">
-                <div className="reviews-empty-icon">
-                  <MessageCircle />
-                </div>
-                <h3>Customer reviews will appear here.</h3>
-                <p>
-                  We value genuine customer feedback. Real reviews from Google will be presented here as they are published.
-                </p>
-                <div className="reviews-empty-actions">
-                  <a
-                    href={mapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="button button-outline read-all-reviews-btn"
-                  >
-                    Read All Reviews on Google <ExternalLink />
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          )}
         </section>
 
         {/* 7. FREQUENTLY ASKED QUESTIONS SECTION */}
@@ -791,7 +772,7 @@ export default function RepairCenter() {
               <img
                 className="footer-logo-emblem"
                 src={galaxyEmblem}
-                alt="Gallexy"
+                alt=""
                 width={32}
                 height={32}
                 loading="lazy"
@@ -799,7 +780,7 @@ export default function RepairCenter() {
               <img
                 className="footer-logo-wordmark"
                 src={galaxyWordmark}
-                alt="Gallexy Services"
+                alt=""
                 width={118}
                 height={20}
                 loading="lazy"
@@ -814,10 +795,10 @@ export default function RepairCenter() {
                 <WhatsAppIcon />
               </a>
               <a href={mapsUrl} target="_blank" rel="noopener noreferrer" aria-label="Google Maps">
-                <MapPin />
+                <MapPin aria-hidden="true" />
               </a>
               <a href={`tel:${phone}`} aria-label="Call Gallexy Services">
-                <Phone />
+                <Phone aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -829,7 +810,6 @@ export default function RepairCenter() {
               <li><a href="#top">Home</a></li>
               <li><a href="#services">Services</a></li>
               <li><a href="#location">Location</a></li>
-              <li><a href="#reviews">Customer Reviews</a></li>
               <li><a href="#faqs">FAQs</a></li>
             </ul>
           </div>
@@ -865,9 +845,9 @@ export default function RepairCenter() {
           <div className="footer-divider" />
           <div className="footer-bottom-flex">
             <p className="copyright">
-              © {new Date().getFullYear()} Gallexy Services. All rights reserved.
+              © {new Date().getFullYear()} <span translate="no">Gallexy Services</span>. All rights reserved.
             </p>
-            <span className="footer-badge">Chalakudy, Kerala</span>
+            <span className="footer-badge"><span translate="no">Chalakudy</span>, Kerala</span>
           </div>
         </div>
       </motion.footer>
@@ -875,7 +855,7 @@ export default function RepairCenter() {
       {/* PERSISTENT MOBILE BOTTOM BAR */}
       <div className="mobile-bottom-bar" role="navigation" aria-label="Quick contact">
         <a className="button button-red" href={`tel:${phone}`}>
-          <Phone /> Call Now
+          <Phone aria-hidden="true" /> Call Now
         </a>
         <a
           className="button button-whatsapp"
