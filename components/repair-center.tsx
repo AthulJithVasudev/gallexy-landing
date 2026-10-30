@@ -25,8 +25,8 @@ import LogoLoop from './LogoLoop'
 import { AnimatedThemeToggler } from './ui/animated-theme-toggler'
 import { WhatsAppIcon } from './whatsapp-icon'
 
-const phone = '+919876543210'
-const whatsapp = 'https://wa.me/919876543210'
+const phone = '+919496696934'
+const whatsapp = 'https://wa.me/919496696934'
 const mapsUrl =
   'https://www.google.com/maps/place/Galaxy+services/@10.3022082,76.3356451,19.62z/data=!4m6!3m5!1s0x3b0803a3a3458ead:0x5d92b40509f9c5e2!8m2!3d10.3021022!4d76.3361788!16s%2Fg%2F11gjqp92bm?entry=ttu'
 const mapsEmbedUrl =
