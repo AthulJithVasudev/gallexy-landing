@@ -3,19 +3,19 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Gallexy Services | Phone Repairs, Made Simple',
+  title: 'Galaxy Services | Phone Repairs, Made Simple',
   description:
-    'Gallexy Services provides reliable mobile phone repair assistance in Chalakudy, Kerala. Contact us to discuss your device and get a repair estimate.',
+    'Galaxy Services provides reliable mobile phone repair assistance in Chalakudy, Kerala. Contact us to discuss your device and get a repair estimate.',
   metadataBase: new URL('https://gallexyservices.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'Gallexy Services | Phone Repairs, Made Simple',
+    title: 'Galaxy Services | Phone Repairs, Made Simple',
     description:
-      'Gallexy Services provides reliable mobile phone repair assistance in Chalakudy, Kerala. Contact us to discuss your device and get a repair estimate.',
+      'Galaxy Services provides reliable mobile phone repair assistance in Chalakudy, Kerala. Contact us to discuss your device and get a repair estimate.',
     url: 'https://gallexyservices.com',
-    siteName: 'Gallexy Services',
+    siteName: 'Galaxy Services',
     locale: 'en_IN',
     type: 'website',
   },

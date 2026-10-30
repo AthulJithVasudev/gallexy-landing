@@ -34,8 +34,8 @@ const mapsUrl =
   'https://www.google.com/maps/place/Galaxy+services/@10.3022082,76.3356451,19.62z/data=!4m6!3m5!1s0x3b0803a3a3458ead:0x5d92b40509f9c5e2!8m2!3d10.3021022!4d76.3361788!16s%2Fg%2F11gjqp92bm?entry=ttu'
 const mapsEmbedUrl =
   'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d980.7!2d76.3356451!3d10.3022082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b0803a3a3458ead%3A0x5d92b40509f9c5e2!2sGalaxy%20services!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin'
-const galaxyLogo = '/images/gallexy-logo-trimmed.webp'
-const galaxyWordmark = '/images/gallexy-logo-trimmed.webp'
+const galaxyLogo = '/images/galaxy-logo-trimmed.webp'
+const galaxyWordmark = '/images/galaxy-logo-trimmed.webp'
 const galaxyEmblem = '/images/galaxy-emblem.webp'
 
 const brandLogos = [
@@ -56,49 +56,49 @@ const services = [
     icon: Smartphone,
     title: 'Screen Replacement',
     description: 'Cracked, damaged, or unresponsive screens.',
-    query: 'Hi Gallexy Services, I would like to enquire about screen replacement for my phone.',
+    query: 'Hi Galaxy Services, I would like to enquire about screen replacement for my phone.',
   },
   {
     icon: Battery,
     title: 'Battery Issues',
     description: 'Battery draining quickly or struggling to hold charge.',
-    query: 'Hi Gallexy Services, I would like to enquire about battery issues with my phone.',
+    query: 'Hi Galaxy Services, I would like to enquire about battery issues with my phone.',
   },
   {
     icon: PlugZap,
     title: 'Charging Problems',
     description: 'Charging port issues and charging faults.',
-    query: 'Hi Gallexy Services, I would like to enquire about charging problems with my phone.',
+    query: 'Hi Galaxy Services, I would like to enquire about charging problems with my phone.',
   },
   {
     icon: Droplets,
     title: 'Water Damage',
     description: 'Assessment for liquid-related phone damage.',
-    query: 'Hi Gallexy Services, I would like to enquire about water damage assessment for my phone.',
+    query: 'Hi Galaxy Services, I would like to enquire about water damage assessment for my phone.',
   },
   {
     icon: Unlock,
     title: 'Software Issues',
     description: 'Troubleshooting, updates, and software problems.',
-    query: 'Hi Gallexy Services, I would like to enquire about software troubleshooting for my phone.',
+    query: 'Hi Galaxy Services, I would like to enquire about software troubleshooting for my phone.',
   },
   {
     icon: Mic2,
     title: 'Speaker & Microphone',
     description: 'Sound, call audio, and microphone issues.',
-    query: 'Hi Gallexy Services, I would like to enquire about speaker or microphone issues with my phone.',
+    query: 'Hi Galaxy Services, I would like to enquire about speaker or microphone issues with my phone.',
   },
   {
     icon: Wrench,
     title: 'Back Glass Damage',
     description: 'Cracked or damaged rear glass.',
-    query: 'Hi Gallexy Services, I would like to enquire about back glass damage repair for my phone.',
+    query: 'Hi Galaxy Services, I would like to enquire about back glass damage repair for my phone.',
   },
   {
     icon: Camera,
     title: 'Camera Problems',
     description: 'Camera faults, focusing issues, or damaged lenses.',
-    query: 'Hi Gallexy Services, I would like to enquire about camera problems on my phone.',
+    query: 'Hi Galaxy Services, I would like to enquire about camera problems on my phone.',
   },
 ]
 
@@ -371,7 +371,7 @@ export default function RepairCenter() {
       >
         <PillNav
           logo={galaxyLogo}
-          logoAlt="Gallexy"
+          logoAlt="Galaxy"
           logoHref="#top"
           items={navItems}
           activeHref={activeHref}
@@ -628,7 +628,7 @@ export default function RepairCenter() {
           >
             <span className="services-cta-prompt">Not sure what’s wrong?</span>
             <a
-              href={`${whatsapp}?text=${encodeURIComponent("Hi Gallexy Services, I'm not sure what's wrong with my phone and would like to ask about repair options.")}`}
+              href={`${whatsapp}?text=${encodeURIComponent("Hi Galaxy Services, I'm not sure what's wrong with my phone and would like to ask about repair options.")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="services-cta-link"
@@ -665,7 +665,7 @@ export default function RepairCenter() {
                 <div className="contact-detail">
                   <MapPin aria-hidden="true" />
                   <div>
-                    <strong><span translate="no">Gallexy Services</span></strong>
+                    <strong><span translate="no">Galaxy Services</span></strong>
                     <p>
                       First Floor, Swarnam Arcade, KSRTC Bus Stand Rd
                       <br />
@@ -729,7 +729,7 @@ export default function RepairCenter() {
               {/* 1, 2, 3: Mobile Location Header */}
               <div className="mobile-map-header">
                 <span className="mobile-map-label">FIND OUR LOCATION</span>
-                <h2 className="mobile-map-title">Visit <span translate="no">Gallexy Services</span></h2>
+                <h2 className="mobile-map-title">Visit <span translate="no">Galaxy Services</span></h2>
                 <p className="mobile-map-desc">
                   We’re easy to find, right near the KSRTC Bus Stand in <span translate="no">Chalakudy</span>.
                 </p>
@@ -738,7 +738,7 @@ export default function RepairCenter() {
               {/* 4: Interactive Google Map */}
               <div className="map-frame">
                 <iframe
-                  title="Gallexy Services Location Map - Chalakudy"
+                  title="Galaxy Services Location Map - Chalakudy"
                   src={mapsEmbedUrl}
                   allowFullScreen
                   loading="lazy"
@@ -746,7 +746,7 @@ export default function RepairCenter() {
                 />
                 <div className="map-badge">
                   <MapPin aria-hidden="true" />
-                  <span><span translate="no">Gallexy Services</span> · <span translate="no">Chalakudy</span></span>
+                  <span><span translate="no">Galaxy Services</span> · <span translate="no">Chalakudy</span></span>
                 </div>
               </div>
 
@@ -755,7 +755,7 @@ export default function RepairCenter() {
                 <div className="contact-detail">
                   <MapPin aria-hidden="true" />
                   <div>
-                    <strong><span translate="no">Gallexy Services</span></strong>
+                    <strong><span translate="no">Galaxy Services</span></strong>
                     <p>
                       First Floor, Swarnam Arcade, KSRTC Bus Stand Rd
                       <br />
@@ -787,7 +787,7 @@ export default function RepairCenter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mobile-map-btn"
-                aria-label="Open Gallexy Services in Google Maps (opens in a new tab)"
+                aria-label="Open Galaxy Services in Google Maps (opens in a new tab)"
               >
                 <Map aria-hidden="true" className="mobile-map-btn-icon" />
                 <span>Open in Google Maps</span>
@@ -812,7 +812,7 @@ export default function RepairCenter() {
         <div className="section-wrap footer-grid">
           {/* Column 1 — Brand */}
           <div className="footer-col footer-col-brand">
-            <a href="#top" className="footer-brand" aria-label="Gallexy Services home">
+            <a href="#top" className="footer-brand" aria-label="Galaxy Services home">
               <img
                 className="footer-logo-emblem"
                 src={galaxyEmblem}
@@ -841,7 +841,7 @@ export default function RepairCenter() {
               <a href={mapsUrl} target="_blank" rel="noopener noreferrer" aria-label="Google Maps (opens in a new tab)">
                 <MapPin aria-hidden="true" />
               </a>
-              <a href={`tel:${phone}`} aria-label="Call Gallexy Services">
+              <a href={`tel:${phone}`} aria-label="Call Galaxy Services">
                 <Phone aria-hidden="true" />
               </a>
             </div>
@@ -862,7 +862,7 @@ export default function RepairCenter() {
           <div className="footer-col footer-col-visit">
             <h4 className="footer-heading">Visit Us</h4>
             <address className="footer-address">
-              <strong>Gallexy Services</strong>
+              <strong>Galaxy Services</strong>
               <span>First Floor, Swarnam Arcade</span>
               <span>KSRTC Bus Stand Rd, South Junction</span>
               <span>South Chalakudy, Kerala 680307</span>
@@ -889,7 +889,7 @@ export default function RepairCenter() {
           <div className="footer-divider" />
           <div className="footer-bottom-flex">
             <p className="copyright">
-              © {new Date().getFullYear()} <span translate="no">Gallexy Services</span>. All rights reserved.
+              © {new Date().getFullYear()} <span translate="no">Galaxy Services</span>. All rights reserved.
             </p>
             <span className="footer-badge"><span translate="no">Chalakudy</span>, Kerala</span>
           </div>

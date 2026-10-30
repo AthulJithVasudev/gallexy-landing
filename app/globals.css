@@ -745,7 +745,7 @@ button, a, [role="button"] { touch-action: manipulation; }
 .footer-social-links a:active { transform: translateY(0) scale(0.94); transition-duration: 0.08s; }
 .footer-social-links svg { width: 15px; height: 15px; transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1); }
 .footer-social-links a[aria-label="WhatsApp"]:hover svg { animation: wa-pulse 0.55s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.footer-social-links a[aria-label="Call Gallexy Services"]:hover svg { animation: phone-ring 0.6s ease-in-out; }
+.footer-social-links a[aria-label="Call Galaxy Services"]:hover svg { animation: phone-ring 0.6s ease-in-out; }
 .footer-heading { margin: 0 0 6px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--foreground); }
 .footer-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .footer-links li a { color: var(--muted); font-size: 13px; text-decoration: none; transition: color .2s ease; }
