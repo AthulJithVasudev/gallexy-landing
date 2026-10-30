@@ -305,6 +305,13 @@ export default function RepairCenter() {
       }
 
       const diff = currentScrollY - lastScrollY
+
+      // Ignore zero movement
+      if (Math.abs(diff) < 1) {
+        rafId = null
+        return
+      }
+
       const currentDirection: 'up' | 'down' = diff > 0 ? 'down' : 'up'
 
       // Reset baseline when scroll direction reverses to prevent accidental triggers
@@ -357,18 +364,8 @@ export default function RepairCenter() {
 
   return (
     <div className="site-shell">
-      <motion.header
+      <header
         className={`top-dock ${!isNavVisible ? 'is-nav-hidden' : ''}`}
-        initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -16 }}
-        animate={{
-          opacity: isNavVisible ? 1 : 0,
-          y: isNavVisible ? 0 : (shouldReduceMotion ? 0 : -80),
-        }}
-        transition={
-          shouldReduceMotion
-            ? { duration: 0 }
-            : { duration: 0.28, ease: easeOutCustom }
-        }
       >
         <PillNav
           logo={galaxyLogo}
@@ -395,7 +392,7 @@ export default function RepairCenter() {
             <Phone aria-hidden="true" /> <span>Call Now</span>
           </a>
         </div>
-      </motion.header>
+      </header>
 
       <main id="top">
         {/* 1. HERO SECTION */}
