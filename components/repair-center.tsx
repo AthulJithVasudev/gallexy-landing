@@ -41,10 +41,12 @@ const galaxyEmblem = '/images/galaxy-emblem.webp'
 const brandLogos = [
   { src: '/images/logos/xiaomi.svg', alt: 'Xiaomi', title: 'Xiaomi', width: 32, height: 32 },
   { src: '/images/logos/redmi.svg', alt: 'Redmi', title: 'Redmi', width: 80, height: 23 },
+  { src: '/images/logos/motorola.svg', alt: 'Motorola', title: 'Motorola', width: 96, height: 22 },
   { src: '/images/logos/cmf.svg', alt: 'CMF', title: 'CMF', width: 48, height: 32 },
   { src: '/images/logos/nothing.svg', alt: 'Nothing', title: 'Nothing', width: 100, height: 18 },
   { src: '/images/logos/xiaomi.svg', alt: 'Xiaomi', title: 'Xiaomi', width: 32, height: 32 },
   { src: '/images/logos/redmi.svg', alt: 'Redmi', title: 'Redmi', width: 80, height: 23 },
+  { src: '/images/logos/motorola.svg', alt: 'Motorola', title: 'Motorola', width: 96, height: 22 },
   { src: '/images/logos/cmf.svg', alt: 'CMF', title: 'CMF', width: 48, height: 32 },
   { src: '/images/logos/nothing.svg', alt: 'Nothing', title: 'Nothing', width: 100, height: 18 },
 ]
@@ -520,8 +522,8 @@ export default function RepairCenter() {
               <div className="floating-note-inner">
                 <ShieldCheck aria-hidden="true" />
                 <span>
-                  <strong>Assessment &amp; Care</strong>
-                  <small>Device-specific advice</small>
+                  <strong>Authorized Service Center</strong>
+                  <small>Official brand service</small>
                 </span>
               </div>
             </motion.div>
@@ -550,7 +552,7 @@ export default function RepairCenter() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.55, ease: easeOutCustom }}
         >
-          <span className="strip-label">Brands we service</span>
+          <span className="strip-label">Authorized service partner for</span>
           <LogoLoop
             className="brand-loop"
             logos={brandLogos}
@@ -562,7 +564,7 @@ export default function RepairCenter() {
             scaleOnHover
             fadeOut
             fadeOutWidth={0.12}
-            ariaLabel="Brands we service: Xiaomi, Redmi, CMF, Nothing"
+            ariaLabel="Brands we service: Xiaomi, Redmi, Motorola, CMF, Nothing"
           />
         </motion.section>
 
@@ -823,14 +825,14 @@ export default function RepairCenter() {
                 className="footer-logo-wordmark"
                 src={galaxyWordmark}
                 alt=""
-                width={118}
-                height={20}
+                width={88}
+                height={26}
                 loading="lazy"
               />
             </a>
             <p className="footer-tagline">Phone repairs, made simple.</p>
             <p className="footer-subtext">
-              Mobile repair and service center in <span translate="no">Chalakudy</span>, Kerala.
+              Authorized mobile service center in <span translate="no">Chalakudy</span>, Kerala.
             </p>
             <div className="footer-social-links">
               <a href={whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp (opens in a new tab)">

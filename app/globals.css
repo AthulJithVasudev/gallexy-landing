@@ -412,6 +412,7 @@ button, a, [role="button"] { touch-action: manipulation; }
 .brand-loop img[src*="xiaomi"] { height: 32px !important; width: auto; }
 .brand-loop img[src*="cmf"] { height: 32px !important; width: auto; }
 .brand-loop img[src*="redmi"] { height: 23px !important; width: auto; }
+.brand-loop img[src*="motorola"] { height: 22px !important; width: auto; }
 .brand-loop img[src*="nothing"] { height: 18px !important; width: auto; }
 .brand-loop .logoloop__item:hover img { opacity: 1; filter: none !important; }
 .dark .brand-strip .brand-loop img,
@@ -733,7 +734,7 @@ button, a, [role="button"] { touch-action: manipulation; }
 .footer-col { display: flex; flex-direction: column; gap: 16px; }
 .footer-brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
 .footer-logo-emblem { height: 32px; width: auto; transition: filter .2s ease; }
-.footer-logo-wordmark { height: 20px; width: auto; transition: filter .2s ease; }
+.footer-logo-wordmark { height: 26px; width: auto; transition: filter .2s ease; }
 .dark .footer-logo-emblem,
 .dark .footer-logo-wordmark { filter: invert(1) brightness(1.25); }
 .footer-tagline { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: -0.02em; color: var(--foreground); }

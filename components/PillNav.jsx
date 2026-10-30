@@ -755,7 +755,7 @@ const PillNav = ({
           <LinkComponent href={logoHref} className={LOGO_LINK} aria-label={logoAlt} onPointerEnter={spin}>
             <span ref={markRef} className={MARK}>
               {typeof logo === 'string' ? (
-                <img src={logo} alt="" width={95} height={20} fetchPriority="high" draggable={false} />
+                <img src={logo} alt="" width={75} height={22} fetchPriority="high" draggable={false} />
               ) : (
                 logo
               )}
