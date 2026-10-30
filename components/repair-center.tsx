@@ -1,15 +1,17 @@
 'use client'
 
-import { memo, useEffect, useMemo, useState } from 'react'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
   ArrowRight,
+  ArrowUpRight,
   Battery,
   Camera,
   Check,
   ChevronDown,
   Clock3,
   Droplets,
+  Map,
   MapPin,
   Mic2,
   Phone,
@@ -22,6 +24,7 @@ import {
 } from 'lucide-react'
 import PillNav from './PillNav'
 import LogoLoop from './LogoLoop'
+import FaqSection from './faq-section'
 import { AnimatedThemeToggler } from './ui/animated-theme-toggler'
 import { WhatsAppIcon } from './whatsapp-icon'
 
@@ -100,29 +103,6 @@ const services = [
 
 
 
-const faqs = [
-  {
-    q: 'How much does a phone repair cost?',
-    a: 'Repair costs depend on your phone model, the issue, and the parts required. Contact us to discuss an estimate.',
-  },
-  {
-    q: 'How long will a repair take?',
-    a: 'Repair times depend on the fault, device model, and parts availability. We’ll discuss the expected timeline once we understand the problem.',
-  },
-  {
-    q: 'Can I walk in for a repair?',
-    a: 'Yes, walk-ins are welcome during our business hours',
-  },
-  {
-    q: 'Do you provide a warranty on repairs?',
-    a: 'Contact us to discuss the warranty terms applicable to your repair.',
-  },
-  {
-    q: 'What if my phone cannot be repaired?',
-    a: 'We’ll explain what we find during the assessment and discuss the available options. Whether a repair is possible depends on the device and the nature of the damage.',
-  },
-]
-
 const easeOutCustom = [0.22, 1, 0.36, 1] as const
 
 const SectionHeading = memo(function SectionHeading({
@@ -150,92 +130,13 @@ const SectionHeading = memo(function SectionHeading({
   )
 })
 
-const FaqAccordion = memo(function FaqAccordion({
-  faqs,
-  shouldReduceMotion,
-}: {
-  faqs: Array<{ q: string; a: string }>
-  shouldReduceMotion: boolean | null
-}) {
-  const [openFaq, setOpenFaq] = useState<number | null>(0)
-
-  const faqContainerVariants = useMemo(
-    () => ({
-      hidden: { opacity: 0 },
-      visible: {
-        opacity: 1,
-        transition: {
-          staggerChildren: shouldReduceMotion ? 0 : 0.07,
-        },
-      },
-    }),
-    [shouldReduceMotion]
-  )
-
-  const faqItemVariants = useMemo(
-    () => ({
-      hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
-      visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.45, ease: easeOutCustom },
-      },
-    }),
-    [shouldReduceMotion]
-  )
-
-  return (
-    <motion.div
-      className="faq-list"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
-      variants={faqContainerVariants}
-    >
-      {faqs.map((faq, i) => (
-        <motion.div
-          className={`faq-item ${openFaq === i ? 'is-open' : ''}`}
-          key={faq.q}
-          variants={faqItemVariants}
-        >
-          <button
-            id={`faq-btn-${i}`}
-            onClick={() => setOpenFaq((prev) => (prev === i ? null : i))}
-            aria-expanded={openFaq === i}
-            aria-controls={`faq-panel-${i}`}
-          >
-            <span>{faq.q}</span>
-            <ChevronDown aria-hidden="true" />
-          </button>
-          <AnimatePresence initial={false}>
-            {openFaq === i && (
-              <motion.div
-                id={`faq-panel-${i}`}
-                role="region"
-                aria-labelledby={`faq-btn-${i}`}
-                className="faq-answer"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={
-                  shouldReduceMotion
-                    ? { duration: 0 }
-                    : { duration: 0.28, ease: [0.16, 1, 0.3, 1] }
-                }
-              >
-                <p>{faq.a}</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      ))}
-    </motion.div>
-  )
-})
-
 export default function RepairCenter() {
   const [dark, setDark] = useState(false)
   const [activeHref, setActiveHref] = useState('#top')
+  const [isNavVisible, setIsNavVisible] = useState(true)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const isMenuOpenRef = useRef(isMenuOpen)
+  isMenuOpenRef.current = isMenuOpen
   const shouldReduceMotion = useReducedMotion()
 
   const heroActionsVariants = useMemo(
@@ -370,6 +271,83 @@ export default function RepairCenter() {
     }
   }, [])
 
+  // Floating navbar: scroll-direction detection with threshold & mobile menu awareness
+  useEffect(() => {
+    let lastScrollY = typeof window !== 'undefined' ? window.scrollY : 0
+    let lastDirection: 'up' | 'down' = 'up'
+    let rafId: number | null = null
+
+    const SCROLL_THRESHOLD = 20
+    const TOP_THRESHOLD = 50
+
+    const updateNavVisibility = () => {
+      const currentScrollY = window.scrollY
+
+      // 1. Keep navbar visible if mobile navigation menu is open or at top of the page
+      if (isMenuOpenRef.current || currentScrollY <= TOP_THRESHOLD) {
+        setIsNavVisible(true)
+        lastScrollY = Math.max(0, currentScrollY)
+        rafId = null
+        return
+      }
+
+      // Ignore negative scroll values (iOS rubber-band effect)
+      if (currentScrollY < 0) {
+        rafId = null
+        return
+      }
+
+      // Avoid jitter at the very bottom of the document
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+      if (maxScroll > 0 && currentScrollY > maxScroll) {
+        rafId = null
+        return
+      }
+
+      const diff = currentScrollY - lastScrollY
+      const currentDirection: 'up' | 'down' = diff > 0 ? 'down' : 'up'
+
+      // Reset baseline when scroll direction reverses to prevent accidental triggers
+      if (currentDirection !== lastDirection) {
+        lastDirection = currentDirection
+        lastScrollY = currentScrollY
+        rafId = null
+        return
+      }
+
+      // Check threshold in current direction
+      if (Math.abs(diff) >= SCROLL_THRESHOLD) {
+        if (currentDirection === 'down') {
+          setIsNavVisible(false)
+        } else {
+          setIsNavVisible(true)
+        }
+        lastScrollY = currentScrollY
+      }
+
+      rafId = null
+    }
+
+    const onScroll = () => {
+      if (rafId === null) {
+        rafId = window.requestAnimationFrame(updateNavVisibility)
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (rafId !== null) window.cancelAnimationFrame(rafId)
+    }
+  }, [])
+
+  // Keep navbar visible when mobile menu is opened
+  useEffect(() => {
+    if (isMenuOpen) {
+      setIsNavVisible(true)
+    }
+  }, [isMenuOpen])
+
   const navItems = [
     { label: 'Home', href: '#top' },
     { label: 'Services', href: '#services' },
@@ -380,10 +358,17 @@ export default function RepairCenter() {
   return (
     <div className="site-shell">
       <motion.header
-        className="top-dock"
+        className={`top-dock ${!isNavVisible ? 'is-nav-hidden' : ''}`}
         initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: easeOutCustom }}
+        animate={{
+          opacity: isNavVisible ? 1 : 0,
+          y: isNavVisible ? 0 : (shouldReduceMotion ? 0 : -80),
+        }}
+        transition={
+          shouldReduceMotion
+            ? { duration: 0 }
+            : { duration: 0.28, ease: easeOutCustom }
+        }
       >
         <PillNav
           logo={galaxyLogo}
@@ -398,6 +383,7 @@ export default function RepairCenter() {
           stretch={0.78}
           collapse="auto"
           theme={dark ? 'dark' : 'light'}
+          onMenuToggle={setIsMenuOpen}
         />
         <div className="dock-actions">
           <AnimatedThemeToggler
@@ -607,7 +593,7 @@ export default function RepairCenter() {
                   rel="noopener noreferrer"
                   className="service-card"
                   variants={serviceCardVariants}
-                  aria-label={`Enquire about ${service.title} on WhatsApp`}
+                  aria-label={`Enquire about ${service.title} on WhatsApp (opens in a new tab)`}
                   whileHover={
                     shouldReduceMotion
                       ? undefined
@@ -675,56 +661,64 @@ export default function RepairCenter() {
                 <p>Have a phone problem? Get in touch to discuss your device or plan your visit.</p>
               </SectionHeading>
 
-              <div className="contact-detail">
-                <MapPin aria-hidden="true" />
-                <div>
-                  <strong><span translate="no">Gallexy Services</span></strong>
-                  <p>
-                    First Floor, Swarnam Arcade, KSRTC Bus Stand Rd
-                    <br />
-                    Opposite Reliance Fresh &amp; Surabhi Theatre, South Junction
-                    <br />
-                    South Chalakudy, Chalakudy, Kerala 680307
-                  </p>
+              {/* Desktop-only details & actions inside location-copy */}
+              <div className="location-desktop-details">
+                <div className="contact-detail">
+                  <MapPin aria-hidden="true" />
+                  <div>
+                    <strong><span translate="no">Gallexy Services</span></strong>
+                    <p>
+                      First Floor, Swarnam Arcade, KSRTC Bus Stand Rd
+                      <br />
+                      Opposite Reliance Fresh &amp; Surabhi Theatre, South Junction
+                      <br />
+                      South Chalakudy, Chalakudy, Kerala 680307
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="contact-detail">
-                <Clock3 aria-hidden="true" />
-                <div>
-                  <strong>Working Hours</strong>
-                  <p>
-                    Monday – Saturday: 10:30 AM – 7:00 PM
-                    <br />
-                    <span style={{ color: 'var(--red)', fontSize: '11px', fontWeight: 600 }}>
-                      Sunday: Closed
-                    </span>
-                  </p>
+                <div className="contact-detail">
+                  <Clock3 aria-hidden="true" />
+                  <div>
+                    <strong>Working Hours</strong>
+                    <p>
+                      Monday – Saturday: 10:30 AM – 7:00 PM
+                      <br />
+                      <span style={{ color: 'var(--red)', fontSize: '11px', fontWeight: 600 }}>
+                        Sunday: Closed
+                      </span>
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="location-actions">
-                <a className="button button-red button-prominent" href={`tel:${phone}`}>
-                  <Phone aria-hidden="true" /> Call Now
-                </a>
-                <a
-                  className="button button-whatsapp"
-                  href={whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <WhatsAppIcon /> WhatsApp Us
-                </a>
-                <a
-                  className="button button-outline button-with-arrow"
-                  href={mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Get Directions <ArrowRight aria-hidden="true" className="arrow-icon" />
-                </a>
+                <div className="location-actions">
+                  <a className="button button-red button-prominent" href={`tel:${phone}`}>
+                    <Phone aria-hidden="true" /> Call Now
+                  </a>
+                  <a
+                    className="button button-whatsapp"
+                    href={whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="WhatsApp Us (opens in a new tab)"
+                  >
+                    <WhatsAppIcon /> WhatsApp Us
+                  </a>
+                  <a
+                    className="button button-outline button-with-arrow location-directions-desktop"
+                    href={mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Get Directions in Google Maps (opens in a new tab)"
+                  >
+                    Get Directions <ArrowRight aria-hidden="true" className="arrow-icon" />
+                  </a>
+                </div>
               </div>
             </motion.div>
+
+            {/* Subtle Divider (Mobile only) */}
+            <div className="location-mobile-divider" aria-hidden="true" />
 
             <motion.div
               className="map-container"
@@ -733,28 +727,79 @@ export default function RepairCenter() {
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.6, delay: 0.22, ease: easeOutCustom }}
             >
-              <iframe
-                title="Gallexy Services Location Map - Chalakudy"
-                src={mapsEmbedUrl}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-              <div className="map-badge">
-                <MapPin aria-hidden="true" />
-                <span><span translate="no">Gallexy Services</span> · <span translate="no">Chalakudy</span></span>
+              {/* 1, 2, 3: Mobile Location Header */}
+              <div className="mobile-map-header">
+                <span className="mobile-map-label">FIND OUR LOCATION</span>
+                <h2 className="mobile-map-title">Visit <span translate="no">Gallexy Services</span></h2>
+                <p className="mobile-map-desc">
+                  We’re easy to find, right near the KSRTC Bus Stand in <span translate="no">Chalakudy</span>.
+                </p>
               </div>
+
+              {/* 4: Interactive Google Map */}
+              <div className="map-frame">
+                <iframe
+                  title="Gallexy Services Location Map - Chalakudy"
+                  src={mapsEmbedUrl}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+                <div className="map-badge">
+                  <MapPin aria-hidden="true" />
+                  <span><span translate="no">Gallexy Services</span> · <span translate="no">Chalakudy</span></span>
+                </div>
+              </div>
+
+              {/* 5 & 6: Address and Working Hours beneath Map on Mobile */}
+              <div className="location-mobile-details">
+                <div className="contact-detail">
+                  <MapPin aria-hidden="true" />
+                  <div>
+                    <strong><span translate="no">Gallexy Services</span></strong>
+                    <p>
+                      First Floor, Swarnam Arcade, KSRTC Bus Stand Rd
+                      <br />
+                      Opposite Reliance Fresh &amp; Surabhi Theatre, South Junction
+                      <br />
+                      South Chalakudy, Chalakudy, Kerala 680307
+                    </p>
+                  </div>
+                </div>
+
+                <div className="contact-detail">
+                  <Clock3 aria-hidden="true" />
+                  <div>
+                    <strong>Working Hours</strong>
+                    <p>
+                      Monday – Saturday: 10:30 AM – 7:00 PM
+                      <br />
+                      <span style={{ color: 'var(--red)', fontSize: '11px', fontWeight: 600 }}>
+                        Sunday: Closed
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 7: Full-width "Open in Google Maps" button */}
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mobile-map-btn"
+                aria-label="Open Gallexy Services in Google Maps (opens in a new tab)"
+              >
+                <Map aria-hidden="true" className="mobile-map-btn-icon" />
+                <span>Open in Google Maps</span>
+                <ArrowUpRight aria-hidden="true" className="mobile-map-btn-arrow" />
+              </a>
             </motion.div>
           </motion.div>
         </section>
 
         {/* 7. FREQUENTLY ASKED QUESTIONS SECTION */}
-        <section className="faq-section section-space" id="faqs">
-          <div className="narrow-wrap">
-            <SectionHeading eyebrow="Need to know" title="Questions, answered." />
-            <FaqAccordion faqs={faqs} shouldReduceMotion={shouldReduceMotion} />
-          </div>
-        </section>
+        <FaqSection />
       </main>
 
       {/* 8. FOOTER */}
@@ -788,13 +833,13 @@ export default function RepairCenter() {
             </a>
             <p className="footer-tagline">Phone repairs, made simple.</p>
             <p className="footer-subtext">
-              Mobile repair and service center in Chalakudy, Kerala.
+              Mobile repair and service center in <span translate="no">Chalakudy</span>, Kerala.
             </p>
             <div className="footer-social-links">
-              <a href={whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+              <a href={whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp (opens in a new tab)">
                 <WhatsAppIcon />
               </a>
-              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" aria-label="Google Maps">
+              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" aria-label="Google Maps (opens in a new tab)">
                 <MapPin aria-hidden="true" />
               </a>
               <a href={`tel:${phone}`} aria-label="Call Gallexy Services">

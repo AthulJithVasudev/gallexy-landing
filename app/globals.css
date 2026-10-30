@@ -8,6 +8,12 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 
+@media (pointer: fine) {
+  html {
+    overscroll-behavior: none;
+  }
+}
+
 #top,
 #services,
 #location,
@@ -56,7 +62,8 @@ p, .hero-lede {
 .footer-directions-btn:focus-visible,
 .footer-links a:focus-visible,
 .footer-social-links a:focus-visible,
-.faq-item button:focus-visible {
+.faq-item button:focus-visible,
+.mobile-map-btn:focus-visible {
   outline: 2px solid var(--red);
   outline-offset: 3px;
 }
@@ -80,6 +87,7 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
 body { margin: 0; background: var(--background); color: var(--foreground); font-family: Arial, Helvetica, sans-serif; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; }
+button, a, [role="button"] { touch-action: manipulation; }
 .site-shell { overflow: hidden; min-height: 100vh; }
 .section-wrap { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
 .top-dock {
@@ -105,6 +113,9 @@ button { font: inherit; }
   box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
   pointer-events: auto;
   transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.top-dock.is-nav-hidden {
+  pointer-events: none !important;
 }
 .dark .top-dock {
   background: rgba(22, 21, 28, 0.65);
@@ -519,15 +530,148 @@ button { font: inherit; }
 .review-meta { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
 .review-author { color: var(--foreground); }
 
-.faq-section { background: color-mix(in srgb, var(--border) 20%, var(--background)); }
-.narrow-wrap { width: min(760px, calc(100% - 48px)); margin: 0 auto; }
-.faq-list { border-top: 1px solid var(--border); }
-.faq-item { border-bottom: 1px solid var(--border); }
-.faq-item button { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 72px; padding: 0; border: 0; color: var(--foreground); background: transparent; text-align: left; font-size: 15px; font-weight: 700; cursor: pointer; }
-.faq-item button svg { width: 17px; height: 17px; color: var(--muted); transition: transform .2s ease, color .2s ease; }
-.faq-item.is-open button svg { color: var(--red); transform: rotate(180deg); }
-.faq-answer { overflow: hidden; }
-.faq-answer p { max-width: 660px; margin: -2px 0 24px; color: var(--muted); font-size: 14px; line-height: 1.65; }
+/* FAQ Section: Simple FAQs with Background accordion pattern */
+.faq-section { background: color-mix(in srgb, var(--border) 14%, var(--background)); }
+.faq-container { width: 100%; max-width: 48rem; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.faq-title {
+  margin: 0;
+  font-size: clamp(30px, 3.8vw, 44px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: var(--foreground);
+}
+
+.faq-subtitle {
+  margin: 12px auto 0;
+  max-width: 460px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.faq-contact-link {
+  color: var(--red);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  transition: color 150ms ease;
+}
+
+.faq-contact-link:hover {
+  color: var(--red-hover);
+}
+
+.faq-contact-link:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Accordion list with small consistent gaps */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: none;
+}
+
+/* Accordion Item: rounded-xl with subtle background */
+.faq-item {
+  border-radius: 12px;
+  background: transparent;
+  border: none;
+  overflow: hidden;
+  transition: background 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .faq-item:not(.is-open):hover {
+    background: color-mix(in srgb, var(--border) 35%, transparent);
+  }
+}
+
+.faq-item.is-open {
+  background: color-mix(in srgb, var(--border) 42%, var(--card));
+}
+
+/* Full-width Question Button */
+.faq-question-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 48px;
+  padding: 16px 18px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--foreground);
+  background: transparent;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+@media (max-width: 560px) {
+  .faq-question-btn {
+    padding: 14px 14px;
+    font-size: 14.5px;
+  }
+}
+
+.faq-question-btn:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: -2px;
+}
+
+.faq-question-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.faq-chevron {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+  transition: transform 200ms ease, color 200ms ease;
+}
+
+.faq-item.is-open .faq-chevron {
+  transform: rotate(180deg);
+  color: var(--red);
+}
+
+/* Answer panel inside the same background */
+.faq-answer-panel {
+  overflow: hidden;
+}
+
+.faq-answer-inner {
+  padding: 0 18px 16px 18px;
+}
+
+@media (max-width: 560px) {
+  .faq-answer-inner {
+    padding: 0 14px 14px 14px;
+  }
+}
+
+.faq-answer-inner p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
 
 .location-card {
   display: grid;
@@ -558,12 +702,19 @@ button { font: inherit; }
 .contact-detail { display: flex; gap: 14px; margin-top: 22px; }
 .contact-detail > svg { flex: 0 0 auto; width: 18px; height: 18px; color: var(--red); margin-top: 2px; }
 .contact-detail strong { font-size: 13px; font-weight: 700; color: var(--foreground); }
-.contact-detail p { margin: 5px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.contact-detail p { margin: 5px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; font-variant-numeric: tabular-nums; }
 .location-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
 .location-actions .button { min-height: 44px; padding: 0 16px; font-size: 12px; }
 .button-prominent { font-weight: 700; box-shadow: 0 6px 18px -4px #ef444445; }
 .map-container { position: relative; min-height: 460px; height: 100%; width: 100%; overflow: hidden; background: #dfe8e5; display: flex; }
-.map-container iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+.location-desktop-details { display: block; }
+.location-mobile-divider { display: none !important; }
+.location-mobile-details { display: none !important; }
+.map-frame { position: absolute; inset: 0; width: 100%; height: 100%; }
+.map-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+.mobile-map-header { display: none !important; }
+.mobile-map-btn { display: none !important; }
+.location-directions-desktop { display: inline-flex; }
 .map-badge { position: absolute; bottom: 16px; left: 16px; z-index: 2; display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; background: rgba(255, 255, 255, 0.94); color: #111827; border-radius: 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16); font-size: 11px; font-weight: 700; backdrop-filter: blur(8px); pointer-events: none; }
 .dark .map-badge { background: rgba(22, 22, 26, 0.92); color: #f3f4f6; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4); }
 .map-badge svg { width: 14px; height: 14px; color: var(--red); flex: 0 0 auto; }
@@ -611,13 +762,209 @@ button { font: inherit; }
   .hero { grid-template-columns: 1fr; gap: 0; min-height: auto; padding-top: 140px; padding-bottom: 48px; }
   .hero-visual { display: none !important; }
   .service-grid { grid-template-columns: repeat(2, 1fr); }
-
-  .location-card { grid-template-columns: 1fr; }
-  .location-copy { order: 1; padding: 34px; }
-  .map-container { order: 2; min-height: 340px; }
   .brand-strip { gap: 14px; padding: 26px 0; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
   .footer-col-visit { grid-column: 1 / -1; }
+}
+
+@media (max-width: 768px) {
+  /* 1. Single Unified Location Card on Mobile */
+  .location-card {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 22px 16px !important;
+    background: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.05) !important;
+    overflow: hidden !important;
+  }
+
+  /* Hide introductory contact heading and divider on mobile */
+  .location-copy {
+    display: none !important;
+  }
+
+  .location-mobile-divider {
+    display: none !important;
+  }
+
+  /* Location portion inside the unified card */
+  .map-container {
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+    min-height: auto !important;
+    height: auto !important;
+    width: 100% !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  /* 1, 2, 3: Section label, Heading, Supporting text */
+  .mobile-map-header {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    margin-bottom: 12px;
+  }
+
+  .mobile-map-label {
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    display: inline-block;
+  }
+
+  .mobile-map-title {
+    margin: 0 0 5px 0;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--foreground);
+    line-height: 1.2;
+  }
+
+  .mobile-map-desc {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  /* 4: Embedded Google Map (160–180px, rounded corners 10–12px) */
+  .map-frame {
+    position: relative !important;
+    width: 100% !important;
+    height: 170px !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    background: #dfe8e5 !important;
+  }
+
+  .map-frame iframe {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border: 0 !important;
+    display: block !important;
+  }
+
+  .map-badge {
+    display: none !important;
+  }
+
+  /* 5 & 6: Address & Working Hours directly beneath the map */
+  .location-mobile-details {
+    display: flex !important;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .location-mobile-details .contact-detail {
+    display: flex;
+    gap: 12px;
+    margin-top: 0;
+  }
+
+  .location-mobile-details .contact-detail > svg {
+    flex: 0 0 auto;
+    width: 17px;
+    height: 17px;
+    color: var(--red);
+    margin-top: 2px;
+  }
+
+  .location-mobile-details .contact-detail strong {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--foreground);
+    display: block;
+  }
+
+  .location-mobile-details .contact-detail p {
+    margin: 3px 0 0;
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  /* 7: Full-width Directions Button after working hours */
+  .mobile-map-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 42px;
+    min-height: 42px;
+    margin-top: 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--foreground);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+
+  .mobile-map-btn:hover {
+    background: color-mix(in srgb, var(--card) 92%, var(--foreground));
+    border-color: color-mix(in srgb, var(--border) 80%, var(--foreground));
+  }
+
+  .mobile-map-btn:active {
+    transform: scale(0.98);
+  }
+
+  .mobile-map-btn-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--foreground);
+    flex-shrink: 0;
+  }
+
+  .mobile-map-btn-arrow {
+    width: 15px;
+    height: 15px;
+    color: var(--muted);
+    flex-shrink: 0;
+    margin-left: 2px;
+  }
+
+  /* Mobile bottom bar active on mobile viewports */
+  .mobile-bottom-bar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 50;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 10px 12px;
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+    background: color-mix(in srgb, var(--card) 85%, transparent);
+    backdrop-filter: blur(16px);
+  }
+  .mobile-bottom-bar .button { min-height: 48px; }
+  .footer-wrap { padding-bottom: 110px; }
 }
 
 @media (max-width: 640px) {
@@ -643,18 +990,20 @@ button { font: inherit; }
   .services-footer-cta { flex-direction: column; gap: 6px; text-align: center; }
 
   .reviews-empty-inner { padding: 36px 20px; }
-  .location-copy .section-heading h2 { font-size: 32px; }
-  .location-actions { flex-direction: column; }
-  .location-actions .button { width: 100%; }
+  .location-copy .section-heading h2 { font-size: 24px; }
   .footer-wrap { padding-top: 52px; padding-bottom: 110px; }
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }
   .footer-bottom-flex { flex-direction: column; gap: 8px; align-items: flex-start; }
-  .mobile-bottom-bar { position: fixed; right: 0; bottom: 0; left: 0; z-index: 50; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 12px; padding-bottom: max(10px, env(safe-area-inset-bottom)); border-top: 1px solid var(--border); background: color-mix(in srgb, var(--card) 85%, transparent); backdrop-filter: blur(16px); }
+  .mobile-bottom-bar { position: fixed; right: 0; bottom: 0; left: 0; z-index: 50; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 12px; padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); padding-bottom: max(10px, env(safe-area-inset-bottom)); border-top: 1px solid var(--border); background: color-mix(in srgb, var(--card) 85%, transparent); backdrop-filter: blur(16px); }
   .mobile-bottom-bar .button { min-height: 48px; }
   .narrow-wrap { width: calc(100% - 32px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .faq-chevron,
+  .faq-item {
+    transition: none !important;
+  }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
@@ -686,6 +1035,7 @@ button { font: inherit; }
   .footer-social-links a:hover,
   .footer-social-links a:active,
   .arrow-icon,
+  .mobile-map-btn:active,
   .services-cta-link:hover svg,
   .footer-directions-btn:hover svg,
   .read-all-reviews-btn:hover svg {

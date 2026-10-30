@@ -602,8 +602,11 @@ const PillNav = ({
   }, [collapsed, joined]);
 
   useEffect(() => {
-    if (!collapsed && open) setOpen(false);
-  }, [collapsed, open]);
+    if (!collapsed && open) {
+      setOpen(false);
+      onMenuToggle?.(false);
+    }
+  }, [collapsed, open, onMenuToggle]);
 
   useLayoutEffect(() => {
     const panel = panelRef.current;
@@ -663,10 +666,12 @@ const PillNav = ({
       const target = event.target;
       if (target instanceof Node && rootRef.current?.contains(target)) return;
       setOpen(false);
+      onMenuToggle?.(false);
     };
     const onKeyDown = event => {
       if (event.key !== 'Escape') return;
       setOpen(false);
+      onMenuToggle?.(false);
       toggleRef.current?.focus();
     };
     document.addEventListener('pointerdown', onPointerDown);
