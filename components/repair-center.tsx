@@ -16,15 +16,14 @@ import {
   Mic2,
   Phone,
   PlugZap,
-  ShieldCheck,
   Smartphone,
-  Sparkles,
   Unlock,
   Wrench,
 } from 'lucide-react'
-import PillNav from './PillNav'
+import CardNav, { CardNavItem } from './CardNav'
 import LogoLoop from './LogoLoop'
 import FaqSection from './faq-section'
+import HeroVisualCluster from './hero-visual-cluster'
 import { AnimatedThemeToggler } from './ui/animated-theme-toggler'
 import { WhatsAppIcon } from './whatsapp-icon'
 
@@ -132,14 +131,62 @@ const SectionHeading = memo(function SectionHeading({
   )
 })
 
-export default function RepairCenter() {
-  const [dark, setDark] = useState(false)
+const ROTATING_PHRASES = [
+  'made simple.',
+  'done right.',
+  'without the wait.',
+  'with warranty.',
+]
+
+export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: React.ReactNode } = {}) {
+  const [phraseIndex, setPhraseIndex] = useState(0)
+  const [dark, setDark] = useState(true)
   const [activeHref, setActiveHref] = useState('#top')
   const [isNavVisible, setIsNavVisible] = useState(true)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const isMenuOpenRef = useRef(isMenuOpen)
   isMenuOpenRef.current = isMenuOpen
   const shouldReduceMotion = useReducedMotion()
+
+  // Rotating red phrase cycling: starts after sequence (~2.2s), pauses when tab hidden
+  useEffect(() => {
+    if (shouldReduceMotion) return
+
+    let intervalId: ReturnType<typeof setInterval> | null = null
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
+
+    const startCycling = () => {
+      if (intervalId) clearInterval(intervalId)
+      intervalId = setInterval(() => {
+        if (document.visibilityState === 'visible') {
+          setPhraseIndex((prev) => (prev + 1) % ROTATING_PHRASES.length)
+        }
+      }, 3000)
+    }
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        if (intervalId) {
+          clearInterval(intervalId)
+          intervalId = null
+        }
+      } else {
+        startCycling()
+      }
+    }
+
+    timeoutId = setTimeout(() => {
+      startCycling()
+    }, 2200)
+
+    document.addEventListener('visibilitychange', onVisibilityChange)
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId)
+      if (intervalId) clearInterval(intervalId)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
+  }, [shouldReduceMotion])
 
   const heroActionsVariants = useMemo(
     () => ({
@@ -357,220 +404,208 @@ export default function RepairCenter() {
     }
   }, [isMenuOpen])
 
-  const navItems = [
-    { label: 'Home', href: '#top' },
-    { label: 'Services', href: '#services' },
-    { label: 'Location', href: '#location' },
-    { label: 'FAQs', href: '#faqs' },
-  ]
+  const cardNavItems: CardNavItem[] = useMemo(
+    () => [
+      {
+        label: 'Navigation',
+        description: 'Jump to key sections across our service center.',
+        links: [
+          { label: 'Home', href: '#top' },
+          { label: 'What We Fix', href: '#services' },
+          { label: 'Location & Hours', href: '#location' },
+          { label: 'Common FAQs', href: '#faqs' },
+        ],
+      },
+      {
+        label: 'Our Repairs',
+        description: 'Professional hardware & component diagnostics.',
+        links: [
+          { label: 'Screen Replacement', href: '#services' },
+          { label: 'Battery Issues', href: '#services' },
+          { label: 'Charging & Water Damage', href: '#services' },
+          { label: 'Camera & Back Glass', href: '#services' },
+        ],
+      },
+      {
+        label: 'Visit & Connect',
+        description: 'Chalakudy town center. Open Mon–Sat 10:30 AM–7:00 PM.',
+        links: [
+          { label: 'Call: +91 94966 96934', href: `tel:${phone}` },
+          { label: 'Chat on WhatsApp', href: whatsapp },
+          { label: 'Find Us on Maps', href: '#location' },
+        ],
+      },
+    ],
+    []
+  )
 
   return (
     <div className="site-shell">
       <header
-        className={`top-dock ${!isNavVisible ? 'is-nav-hidden' : ''}`}
+        className={`card-nav-header ${!isNavVisible ? 'is-nav-hidden' : ''}`}
       >
-        <PillNav
+        <CardNav
           logo={galaxyLogo}
-          logoAlt="Galaxy"
+          logoAlt="Galaxy Services"
           logoHref="#top"
-          items={navItems}
-          activeHref={activeHref}
-          itemStyle="plain"
-          hoverEffect="glide"
-          indicator="pill"
-          bounce={0.31}
-          stretch={0.78}
-          collapse="auto"
+          items={cardNavItems}
+          cta={{ label: 'Call Now', href: `tel:${phone}` }}
+          accentColor="#e11d2e"
           theme={dark ? 'dark' : 'light'}
-          onMenuToggle={setIsMenuOpen}
+          surface="glass"
+          cardEffect="rise"
+          openOn="click"
+          intro={false}
+          maxWidth={840}
+          onOpenChange={setIsMenuOpen}
+          actions={
+            <AnimatedThemeToggler
+              className="nav-action-btn"
+              theme={dark ? 'dark' : 'light'}
+              onThemeChange={(newTheme) => setDark(newTheme === 'dark')}
+            />
+          }
+          onLinkClick={(link, _item, event) => {
+            if (link.href?.startsWith('#')) {
+              event.preventDefault()
+              const target = document.querySelector(link.href)
+              if (target) {
+                target.scrollIntoView({ behavior: 'smooth' })
+              }
+            }
+          }}
         />
-        <div className="dock-actions">
-          <AnimatedThemeToggler
-            className="nav-action-btn"
-            theme={dark ? 'dark' : 'light'}
-            onThemeChange={(newTheme) => setDark(newTheme === 'dark')}
-          />
-          <a className="nav-call-btn" href={`tel:${phone}`} aria-label="Call Now">
-            <Phone aria-hidden="true" /> <span>Call Now</span>
-          </a>
-        </div>
       </header>
 
       <main id="top">
-        {/* 1. HERO SECTION */}
-        <section className="hero section-wrap">
-          <div className="hero-copy">
-            <motion.div
-              className="status-pill"
-              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.05, ease: easeOutCustom }}
-            >
-              <span className="pulse-dot" /> Open: Mon – Sat 10:30 AM – 7:00 PM{' '}
-              <span className="status-separator">•</span> <span translate="no">Chalakudy</span>
-            </motion.div>
-            <motion.h1
-              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.58, delay: 0.16, ease: easeOutCustom }}
-            >
-              Phone repairs,<br />
-              <em>made simple.</em>
-            </motion.h1>
-            <motion.p
-              className="hero-lede"
-              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.28, ease: easeOutCustom }}
-            >
-              From cracked screens to battery and charging issues, we help get your phone working again.
-              Tell us what’s wrong, and we’ll help you figure out the next step.
-            </motion.p>
-            <motion.div
-              className="hero-actions"
-              variants={heroActionsVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <motion.a
-                variants={heroButtonVariants}
-                className="button button-red hero-call-btn"
-                href={`tel:${phone}`}
-                whileHover={
-                  shouldReduceMotion
-                    ? undefined
-                    : { y: -2, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }
-                }
-                whileTap={
-                  shouldReduceMotion
-                    ? undefined
-                    : { scale: 0.97, transition: { duration: 0.08 } }
-                }
-              >
-                <Phone aria-hidden="true" /> Call Now
-              </motion.a>
-              <motion.a
-                variants={heroButtonVariants}
-                className="button button-whatsapp"
-                href={whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={
-                  shouldReduceMotion
-                    ? undefined
-                    : { y: -2, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }
-                }
-                whileTap={
-                  shouldReduceMotion
-                    ? undefined
-                    : { scale: 0.97, transition: { duration: 0.08 } }
-                }
-              >
-                <WhatsAppIcon /> WhatsApp Us
-              </motion.a>
-            </motion.div>
-            <motion.div
-              className="trust-row"
-              variants={heroTrustVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <motion.span variants={heroTrustItemVariants}>
-                <Check aria-hidden="true" /> Repair Estimates
-              </motion.span>
-              <motion.span variants={heroTrustItemVariants}>
-                <Check aria-hidden="true" /> Repair Options
-              </motion.span>
-              <motion.span variants={heroTrustItemVariants}>
-                <Check aria-hidden="true" /> Personalised Service
-              </motion.span>
-            </motion.div>
-          </div>
+        {/* HERO PAGE: HERO CONTENT + AUTHORIZED SERVICE PARTNER AT BOTTOM (VISIBLE AT FIRST GLANCE) */}
+        <div className="hero-page">
+          <section className="hero section-wrap" aria-label="Galaxy repair center overview">
+            {/* Optional Hero Corner Accents */}
+            <div className="hero-corner-mark hero-corner-tl" aria-hidden="true">+</div>
+            <div className="hero-corner-mark hero-corner-tr" aria-hidden="true">+</div>
+            <div className="hero-corner-mark hero-corner-bl" aria-hidden="true">+</div>
+            <div className="hero-corner-mark hero-corner-br" aria-hidden="true">+</div>
 
-          <div className="hero-visual" aria-label="Phone repair service illustration">
-            <motion.div
-              className="hero-orbit orbit-one"
-              initial={shouldReduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.65, delay: 0.2, ease: easeOutCustom }}
-            />
-            <motion.div
-              className="hero-orbit orbit-two"
-              initial={shouldReduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.65, delay: 0.26, ease: easeOutCustom }}
-            />
-            <motion.div
-              className="phone-frame"
-              initial={shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 22, scale: 0.94 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.65, delay: 0.32, ease: easeOutCustom }}
-            >
-              <div className="phone-speaker" />
-              <div className="phone-screen">
-                <span>09:41</span>
-                <div className="screen-glow" />
-                <Smartphone aria-hidden="true" />
+            <div className="hero-copy">
+
+              {/* 70ms: Opening-hours badge (180ms) */}
+              <div className="status-pill hero-anim-badge">
+                <span className="pulse-dot" /> Open: Mon – Sat 10:30 AM – 7:00 PM{' '}
+                <span className="status-separator">•</span> <span translate="no">Chalakudy</span>
               </div>
-            </motion.div>
-            <motion.div
-              className="floating-note note-top"
-              initial={shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 16, scale: 0.94 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.55, delay: 0.62, ease: easeOutCustom }}
-            >
-              <div className="floating-note-inner">
-                <ShieldCheck aria-hidden="true" />
-                <span>
-                  <strong>Authorized Service Center</strong>
-                  <small>Official brand service</small>
+
+              {/* 150ms & 270ms: h1 lines 1 & 2 */}
+              <h1 className="hero-h1">
+                <span className="sr-only">Phone repairs, made simple.</span>
+                <span aria-hidden="true">
+                  <span className="hero-h1-line hero-h1-line-1">Phone repairs,</span>
+                  <span className="hero-h1-line hero-h1-line-2">
+                    <span className="hero-rotator-grid">
+                      {ROTATING_PHRASES.map((phrase, idx) => (
+                        <span
+                          key={phrase}
+                          className={`hero-rotator-item ${idx === phraseIndex ? 'is-active' : ''}`}
+                        >
+                          <em>{phrase}</em>
+                        </span>
+                      ))}
+                    </span>
+                  </span>
+                </span>
+              </h1>
+
+              {/* 390ms: Subtext */}
+              <p className="hero-lede hero-anim-subtext">
+                From cracked screens to battery and charging issues, we help get your phone working again.
+                Tell us what’s wrong, and we’ll help you figure out the next step.
+              </p>
+
+              {/* 510ms: CTA buttons (clickable from frame 0) */}
+              <div className="hero-actions hero-anim-actions">
+                <motion.a
+                  className="button button-red hero-call-btn"
+                  href={`tel:${phone}`}
+                  whileHover={
+                    shouldReduceMotion
+                      ? undefined
+                      : { y: -2, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }
+                  }
+                  whileTap={
+                    shouldReduceMotion
+                      ? undefined
+                      : { scale: 0.97, transition: { duration: 0.08 } }
+                  }
+                >
+                  <Phone aria-hidden="true" /> Call Now
+                </motion.a>
+                <motion.a
+                  className="button button-whatsapp"
+                  href={whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="WhatsApp Us (opens in a new tab)"
+                  whileHover={
+                    shouldReduceMotion
+                      ? undefined
+                      : { y: -2, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }
+                  }
+                  whileTap={
+                    shouldReduceMotion
+                      ? undefined
+                      : { scale: 0.97, transition: { duration: 0.08 } }
+                  }
+                >
+                  <WhatsAppIcon /> <span translate="no">WhatsApp</span> Us
+                </motion.a>
+              </div>
+
+              {/* 900ms / 1000ms / 1100ms: Tick items fade up 8px */}
+              <div className="trust-row">
+                <span className="hero-anim-tick-1">
+                  <Check aria-hidden="true" /> Repair Estimates
+                </span>
+                <span className="hero-anim-tick-2">
+                  <Check aria-hidden="true" /> Repair Options
+                </span>
+                <span className="hero-anim-tick-3">
+                  <Check aria-hidden="true" /> Personalised Service
                 </span>
               </div>
-            </motion.div>
-            <motion.div
-              className="floating-note note-bottom"
-              initial={shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 16, scale: 0.94 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.55, delay: 0.74, ease: easeOutCustom }}
-            >
-              <div className="floating-note-inner">
-                <Sparkles aria-hidden="true" />
-                <span>
-                  <strong>Clear Estimates</strong>
-                  <small>Upfront discussion</small>
-                </span>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+            </div>
 
-        {/* 2. BRANDS SECTION */}
-        <motion.section
-          className="brand-strip section-wrap"
-          initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55, ease: easeOutCustom }}
-        >
-          <span className="strip-label">Authorized service partner for</span>
-          <LogoLoop
-            className="brand-loop"
-            logos={brandLogos}
-            speed={48}
-            direction="left"
-            logoHeight={26}
-            gap={68}
-            pauseOnHover
-            scaleOnHover
-            fadeOut
-            fadeOutWidth={0.12}
-            ariaLabel="Brands we service: Xiaomi, Redmi, Motorola, CMF, Nothing"
-          />
-        </motion.section>
+            <div className="hero-visual-wrap">
+              <HeroVisualCluster phoneImage={heroPhoneImage} />
+            </div>
+          </section>
 
-        {/* 3. WHAT WE FIX SECTION */}
+          {/* AUTHORIZED SERVICE PARTNER (BOTTOM OF HERO PAGE) */}
+          <section
+            className="brand-strip section-wrap"
+            aria-label="Authorized service partner"
+          >
+            <span className="strip-label hero-anim-brand-label">Authorized service partner for</span>
+            <LogoLoop
+              className="brand-loop"
+              logos={brandLogos}
+              speed={48}
+              direction="left"
+              logoHeight={26}
+              gap={68}
+              pauseOnHover
+              scaleOnHover
+              fadeOut
+              fadeOutWidth={0.12}
+              intro={false}
+              startDelay={900}
+              ariaLabel="Brands we service: Xiaomi, Redmi, Motorola, CMF, Nothing"
+            />
+          </section>
+        </div>
+
+                {/* 3. WHAT WE FIX SECTION */}
         <section className="section-wrap section-space" id="services">
-          <SectionHeading eyebrow="Our expertise" title="What we fix">
+          <SectionHeading eyebrow="Our Expertise" title="What We Fix">
             <p>From cracked glass to charging troubles, our technicians know their way around your device.</p>
           </SectionHeading>
 
@@ -656,7 +691,7 @@ export default function RepairCenter() {
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.55, delay: 0.1, ease: easeOutCustom }}
             >
-              <SectionHeading eyebrow="Come say hello" title="Your phone is in good hands.">
+              <SectionHeading eyebrow="Come Say Hello" title="Your Phone Is in Good Hands">
                 <p>Have a phone problem? Get in touch to discuss your device or plan your visit.</p>
               </SectionHeading>
 
@@ -671,7 +706,13 @@ export default function RepairCenter() {
                       <br />
                       Opposite Reliance Fresh &amp; Surabhi Theatre, South Junction
                       <br />
-                      South Chalakudy, Chalakudy, Kerala 680307
+                      South <span translate="no">Chalakudy</span>, <span translate="no">Chalakudy</span>, Kerala 680307
+                    </p>
+                    <p className="contact-address-phone">
+                      <a href={`tel:${phone}`} aria-label={`Call us at ${phone}`}>
+                        <Phone aria-hidden="true" />
+                        <span>+91 94966 96934</span>
+                      </a>
                     </p>
                   </div>
                 </div>
@@ -728,7 +769,7 @@ export default function RepairCenter() {
             >
               {/* 1, 2, 3: Mobile Location Header */}
               <div className="mobile-map-header">
-                <span className="mobile-map-label">FIND OUR LOCATION</span>
+                <span className="mobile-map-label">Find Our Location</span>
                 <h2 className="mobile-map-title">Visit <span translate="no">Galaxy Services</span></h2>
                 <p className="mobile-map-desc">
                   We’re easy to find, right near the KSRTC Bus Stand in <span translate="no">Chalakudy</span>.
@@ -761,7 +802,13 @@ export default function RepairCenter() {
                       <br />
                       Opposite Reliance Fresh &amp; Surabhi Theatre, South Junction
                       <br />
-                      South Chalakudy, Chalakudy, Kerala 680307
+                      South <span translate="no">Chalakudy</span>, <span translate="no">Chalakudy</span>, Kerala 680307
+                    </p>
+                    <p className="contact-address-phone">
+                      <a href={`tel:${phone}`} aria-label={`Call us at ${phone}`}>
+                        <Phone aria-hidden="true" />
+                        <span>+91 94966 96934</span>
+                      </a>
                     </p>
                   </div>
                 </div>
@@ -862,10 +909,14 @@ export default function RepairCenter() {
           <div className="footer-col footer-col-visit">
             <h4 className="footer-heading">Visit Us</h4>
             <address className="footer-address">
-              <strong>Galaxy Services</strong>
+              <strong><span translate="no">Galaxy Services</span></strong>
               <span>First Floor, Swarnam Arcade</span>
               <span>KSRTC Bus Stand Rd, South Junction</span>
-              <span>South Chalakudy, Kerala 680307</span>
+              <span>South <span translate="no">Chalakudy</span>, Kerala 680307</span>
+              <a href={`tel:${phone}`} className="footer-phone-link" aria-label={`Call us at ${phone}`}>
+                <Phone aria-hidden="true" />
+                <span>+91 94966 96934</span>
+              </a>
             </address>
             <div className="footer-hours">
               <strong>Opening Hours</strong>

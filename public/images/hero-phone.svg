@@ -1,0 +1,146 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 657 942" width="657" height="942">
+	<defs>
+		<linearGradient id="g1" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(402.366,614.679,-533.99,349.547,127.575,163.691)">
+			<stop offset="0" stop-color="#2a2a33"/>
+			<stop offset=".5" stop-color="#0e0e12"/>
+			<stop offset="1" stop-color="#25252d"/>
+		</linearGradient>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp1">
+			<path d="m194.13 92.54l272 0.99c28.72 0.1 51.92 23.47 51.81 52.18l-2.37 652c-0.1 28.72-23.47 51.92-52.19 51.81l-271.99-0.99c-28.72-0.1-51.92-23.47-51.81-52.19l2.36-651.99c0.11-28.72 23.47-51.92 52.19-51.81z"/>
+		</clipPath>
+		<linearGradient id="g2" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(277.719,197.03,-178.845,252.087,190.654,164.516)">
+			<stop offset="0" stop-color="#ff3b4b"/>
+			<stop offset="1" stop-color="#b3101f"/>
+		</linearGradient>
+		<image  width="72" height="72" id="img1" href="data:image/png;base64,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"/>
+	</defs>
+	<style>
+		tspan { white-space:pre } 
+		.s0 { fill: #0e0e12 } 
+		.s1 { fill: url(#g1) } 
+		.s2 { opacity: .7;fill: none;stroke: #4a4a55;stroke-width: 2 } 
+		.s3 { fill: #ffffff } 
+		.t4 { font-size: 15px;fill: #14141a;font-family: "Inter" } 
+		.s5 { fill: #14141a } 
+		.s6 { opacity: .35;fill: #14141a } 
+		.s7 { fill: none;stroke: #14141a;stroke-width: 1.6 } 
+		.s8 { fill: url(#g2) } 
+		.s9 { opacity: .07;fill: #ffffff } 
+		.t10 { font-size: 31px;fill: #ffffff;font-family: "Inter" } 
+		.t11 { font-size: 14px;fill: #ffffff;font-family: "Inter" } 
+		.t12 { font-size: 22px;fill: #14141a;font-family: "Inter" } 
+		.s13 { fill: #ffe4e7;stroke: #ffc2c8;stroke-width: 1.5 } 
+		.s14 { fill: none;stroke: #e11d2e;stroke-width: 3 } 
+		.s15 { fill: #e11d2e } 
+		.t16 { font-size: 17px;fill: #14141a;font-family: "Inter" } 
+		.s17 { fill: none;stroke: #5b5b66;stroke-linecap: round;stroke-linejoin: round;stroke-width: 3 } 
+		.s18 { fill: #f3f3f6 } 
+		.s19 { fill: #22a84a } 
+		.s20 { fill: #000000;stroke: #14141a;stroke-linecap: round;stroke-width: 3 } 
+		.s21 { fill: #2f8cf0 } 
+		.s22 { opacity: .8;fill: none;stroke: #ffffff;stroke-linecap: round;stroke-width: 2 } 
+		.s23 { fill: #e8e8ee } 
+		.s24 { fill: none;stroke: #e11d2e;stroke-linecap: round;stroke-linejoin: round;stroke-width: 3.2 } 
+		.s25 { fill: none;stroke: #14141a;stroke-linecap: round;stroke-linejoin: round;stroke-width: 2.8 } 
+		.s26 { fill: none;stroke: #14141a;stroke-linecap: round;stroke-width: 3 } 
+		.s27 { opacity: .85;fill: #14141a } 
+	</style>
+	<g>
+		<path fill-rule="evenodd" class="s0" d="m128.63 230.3c1.66 0.01 3 1.36 2.99 3.01l-0.17 46c0 1.66-1.35 3-3.01 2.99-1.65 0-2.99-1.35-2.99-3.01l0.17-46c0.01-1.66 1.35-2.99 3.01-2.99z"/>
+		<path fill-rule="evenodd" class="s0" d="m128.38 298.3c1.66 0.01 3 1.35 2.99 3.01l-0.16 46c-0.01 1.66-1.36 3-3.01 2.99-1.66-0.01-3-1.35-2.99-3.01l0.16-46c0.01-1.66 1.36-3 3.01-2.99z"/>
+		<path fill-rule="evenodd" class="s0" d="m530.48 271.76c1.66 0.01 3 1.36 2.99 3.01l-0.28 78c-0.01 1.66-1.35 3-3.01 2.99-1.66-0.01-3-1.35-2.99-3.01l0.28-78c0.01-1.66 1.36-2.99 3.01-2.99z"/>
+		<path fill-rule="evenodd" class="s1" d="m194.18 80.54l271.99 0.99c35.35 0.12 63.9 28.88 63.77 64.23l-2.37 651.99c-0.13 35.35-28.88 63.9-64.23 63.77l-272-0.99c-35.34-0.13-63.89-28.88-63.76-64.23l2.36-651.99c0.13-35.35 28.89-63.9 64.24-63.77z"/>
+		<path fill-rule="evenodd" class="s2" d="m194.16 83.54l272 0.99c33.69 0.12 60.9 27.53 60.78 61.22l-2.37 651.99c-0.12 33.69-27.53 60.9-61.22 60.78l-272-0.99c-33.69-0.12-60.9-27.53-60.77-61.22l2.36-651.99c0.13-33.69 27.54-60.9 61.22-60.78z"/>
+		<path fill-rule="evenodd" class="s3" d="m194.13 92.54l272 0.99c28.72 0.1 51.92 23.47 51.81 52.18l-2.37 652c-0.1 28.72-23.47 51.92-52.19 51.81l-271.99-0.99c-28.72-0.1-51.92-23.47-51.81-52.19l2.36-651.99c0.11-28.72 23.47-51.92 52.19-51.81z"/>
+		<g id="Clip-Path" clip-path="url(#cp1)">
+			<g>
+				<text id="9:41" style="transform: matrix(1,.004,-0.004,1,177.994,130.48)">
+					<tspan x="0" y="0" class="t4">9:41
+</tspan>
+				</text>
+				<g>
+					<path fill-rule="evenodd" class="s5" d="m427.23 121.39h1.6c0.66 0 1.2 0.54 1.19 1.21l-0.02 5.6c0 0.66-0.54 1.19-1.2 1.19h-1.6c-0.66-0.01-1.2-0.55-1.2-1.21l0.02-5.6c0.01-0.66 0.55-1.2 1.21-1.19z"/>
+					<path fill-rule="evenodd" class="s5" d="m433.24 118.41h1.6c0.66 0.01 1.2 0.54 1.2 1.21l-0.04 8.6c0 0.66-0.54 1.2-1.2 1.19h-1.6c-0.66-0.01-1.2-0.54-1.2-1.21l0.04-8.6c0-0.66 0.54-1.2 1.2-1.19z"/>
+					<path fill-rule="evenodd" class="s5" d="m439.25 115.43h1.6c0.66 0.01 1.2 0.55 1.2 1.21l-0.05 11.6c0 0.66-0.54 1.2-1.2 1.19h-1.6c-0.66 0-1.2-0.54-1.2-1.21l0.05-11.6c0-0.66 0.54-1.19 1.2-1.19z"/>
+					<path fill-rule="evenodd" class="s6" d="m445.26 112.45l1.6 0.01c0.66 0 1.2 0.54 1.2 1.2l-0.06 14.6c0 0.66-0.54 1.2-1.2 1.2l-1.6-0.01c-0.66 0-1.2-0.54-1.2-1.2l0.06-14.6c0-0.67 0.54-1.2 1.2-1.2z"/>
+					<path fill-rule="evenodd" class="s7" d="m466.55 114.53l17 0.06c2.49 0.01 4.5 2.03 4.49 4.52l-0.02 5c-0.01 2.48-2.03 4.49-4.52 4.48l-17-0.06c-2.48-0.01-4.49-2.03-4.48-4.52l0.02-5c0.01-2.48 2.03-4.49 4.51-4.48z"/>
+					<path fill-rule="evenodd" class="s5" d="m467.05 117.03l11.99 0.04c1.39 0.01 2.5 1.13 2.5 2.51l-0.02 4c0 1.38-1.13 2.5-2.51 2.49l-12-0.04c-1.38-0.01-2.49-1.13-2.49-2.51l0.02-4c0-1.38 1.12-2.5 2.51-2.49z"/>
+				</g>
+				<path fill-rule="evenodd" class="s0" d="m276.13 103.84l108 0.39c8.84 0.03 15.97 7.22 15.94 16.06-0.03 8.83-7.22 15.97-16.06 15.94l-107.99-0.39c-8.84-0.04-15.98-7.23-15.95-16.06 0.04-8.84 7.23-15.98 16.06-15.94z"/>
+				<path fill-rule="evenodd" class="s8" d="m187.87 164.52l284 1.03c14.36 0.05 25.96 11.73 25.9 26.09l-0.52 144c-0.05 14.36-11.73 25.96-26.09 25.91l-284-1.04c-14.36-0.05-25.96-11.73-25.91-26.09l0.53-144c0.05-14.36 11.73-25.96 26.09-25.9z"/>
+				<path fill-rule="evenodd" class="s9" d="m459.54 255.5c-38.71-0.14-69.88-31.54-69.74-70.25 0.14-38.71 31.54-69.89 70.25-69.75 38.71 0.15 69.89 31.55 69.75 70.26-0.14 38.71-31.55 69.88-70.26 69.74z"/>
+				<g>
+					<use id="Layer 1" href="#img1" x="295" y="181"/>
+				</g>
+				<text id="Phone Repair" style="transform: matrix(1,.004,-0.004,1,329.398,295.031)">
+					<tspan x="-102.6" y="0" class="t10">Phone Repair
+</tspan>
+				</text>
+				<text id="Quick · Reliable · Professional" style="opacity: .92;transform: matrix(1,.004,-0.004,1,329.289,325.031)">
+					<tspan x="-102.9" y="0" class="t11">Quick · Reliable · Professional
+</tspan>
+				</text>
+				<text id="Common Repairs" style="transform: matrix(1,.004,-0.004,1,162.97,412.427)">
+					<tspan x="0" y="0" class="t12">Common Repairs
+</tspan>
+				</text>
+				<path fill-rule="evenodd" class="s13" d="m178.9 432.49l300 1.08c9.94 0.04 17.97 8.13 17.93 18.07l-0.09 26c-0.04 9.94-8.13 17.97-18.07 17.93l-300-1.09c-9.94-0.03-17.97-8.12-17.93-18.06l0.09-26c0.04-9.94 8.13-17.97 18.07-17.93z"/>
+				<path fill-rule="evenodd" class="s3" d="m184.86 443.51l16 0.06c6.62 0.02 11.98 5.41 11.95 12.04l-0.05 16c-0.03 6.63-5.42 11.98-12.05 11.95l-16-0.05c-6.63-0.03-11.98-5.42-11.95-12.05l0.05-16c0.03-6.62 5.42-11.98 12.05-11.95z"/>
+				<path fill-rule="evenodd" class="s14" d="m188.83 450.52l8 0.03c2.21 0.01 4 1.81 3.99 4.02l-0.07 17.99c-0.01 2.21-1.8 4-4.01 3.99l-8-0.03c-2.21-0.01-4-1.8-3.99-4.01l0.07-18c0.01-2.21 1.8-4 4.01-3.99z"/>
+				<path fill-rule="evenodd" class="s15" d="m192.39 473.09c-0.86-0.2-1.39-1.06-1.19-1.92 0.2-0.86 1.06-1.39 1.92-1.19 0.86 0.2 1.4 1.06 1.19 1.92-0.2 0.86-1.06 1.4-1.92 1.19z"/>
+				<text id="Screen Replacement" style="transform: matrix(1,.004,-0.004,1,226.763,469.659)">
+					<tspan x="0" y="0" class="t16">Screen Replacement
+</tspan>
+				</text>
+				<path fill-rule="evenodd" class="s17" d="m473.81 456.56l7.97 8.03-8.03 7.97"/>
+				<path fill-rule="evenodd" class="s18" d="m178.62 508.48l300 1.09c9.94 0.04 17.97 8.13 17.93 18.07l-0.09 26c-0.04 9.94-8.12 17.97-18.07 17.93l-299.99-1.09c-9.95-0.03-17.97-8.12-17.94-18.06l0.1-26c0.03-9.94 8.12-17.97 18.06-17.94z"/>
+				<path fill-rule="evenodd" class="s3" d="m184.58 519.51l16 0.05c6.63 0.03 11.98 5.42 11.96 12.05l-0.06 16c-0.02 6.63-5.42 11.98-12.04 11.95l-16-0.05c-6.63-0.03-11.98-5.42-11.96-12.05l0.06-16c0.02-6.62 5.41-11.98 12.04-11.95z"/>
+				<path fill-rule="evenodd" class="s19" d="m189.55 528.52l6 0.03c1.66 0 2.99 1.35 2.99 3.01l-0.07 18c0 1.65-1.35 2.99-3.01 2.99l-6-0.03c-1.66 0-2.99-1.35-2.99-3.01l0.07-18c0-1.65 1.35-2.99 3.01-2.99z"/>
+				<path fill-rule="evenodd" class="s19" d="m191.06 525.53l3 0.01c0.83 0 1.5 0.68 1.49 1.51v1c0 0.82-0.68 1.49-1.51 1.49l-3-0.01c-0.82 0-1.49-0.68-1.49-1.51v-1c0.01-0.82 0.68-1.49 1.51-1.49z"/>
+				<path class="s3" d="m193.53 533.54l-4.03 7.98 4 0.02-1.02 6 5.03-8.99-4-0.01z"/>
+				<text id="Battery Replacement" style="transform: matrix(1,.004,-0.004,1,226.487,545.659)">
+					<tspan x="0" y="0" class="t16">Battery Replacement
+</tspan>
+				</text>
+				<path fill-rule="evenodd" class="s17" d="m473.54 532.56l7.97 8.03-8.03 7.97"/>
+				<path fill-rule="evenodd" class="s18" d="m178.35 584.48l299.99 1.09c9.94 0.04 17.97 8.13 17.94 18.07l-0.1 26c-0.03 9.94-8.12 17.97-18.06 17.93l-300-1.09c-9.94-0.03-17.97-8.12-17.93-18.06l0.09-26c0.04-9.94 8.12-17.97 18.07-17.94z"/>
+				<path fill-rule="evenodd" class="s3" d="m184.31 595.51l16 0.05c6.62 0.03 11.98 5.42 11.95 12.05l-0.06 16c-0.02 6.62-5.41 11.98-12.04 11.95l-16-0.05c-6.63-0.03-11.98-5.42-11.96-12.05l0.06-16c0.03-6.63 5.42-11.98 12.05-11.95z"/>
+				<path fill-rule="evenodd" class="s5" d="m188.24 612.52l8 0.03c1.66 0.01 3 1.35 2.99 3.01l-0.02 5c0 1.66-1.35 3-3.01 2.99l-8-0.03c-1.65-0.01-2.99-1.35-2.99-3.01l0.02-5c0.01-1.66 1.36-3 3.01-2.99z"/>
+				<path fill-rule="evenodd" class="s5" d="m188.78 603.52c0.82 0.01 1.49 0.68 1.49 1.51l-0.02 7c-0.01 0.83-0.68 1.5-1.51 1.49-0.83 0-1.5-0.67-1.49-1.5l0.02-7c0-0.83 0.68-1.5 1.51-1.5z"/>
+				<path fill-rule="evenodd" class="s5" d="m195.78 603.55c0.82 0 1.49 0.67 1.49 1.5l-0.02 7c-0.01 0.83-0.68 1.5-1.51 1.5-0.83-0.01-1.5-0.68-1.49-1.51l0.02-7c0-0.83 0.68-1.5 1.51-1.49z"/>
+				<path class="s20" d="m192.2 623.53l-0.02 6"/>
+				<text id="Charging Port Repair" style="transform: matrix(1,.004,-0.004,1,226.21,621.658)">
+					<tspan x="0" y="0" class="t16">Charging Port Repair
+</tspan>
+				</text>
+				<path fill-rule="evenodd" class="s17" d="m473.26 608.56l7.97 8.02-8.03 7.98"/>
+				<path fill-rule="evenodd" class="s18" d="m178.07 660.48l300 1.09c9.94 0.04 17.97 8.13 17.93 18.07l-0.09 26c-0.04 9.94-8.13 17.97-18.07 17.93l-300-1.09c-9.94-0.03-17.97-8.12-17.93-18.06l0.09-26c0.04-9.94 8.13-17.97 18.07-17.94z"/>
+				<path fill-rule="evenodd" class="s3" d="m184.03 671.51l16 0.05c6.63 0.03 11.98 5.42 11.96 12.05l-0.06 16c-0.03 6.62-5.42 11.98-12.05 11.95l-16-0.05c-6.62-0.03-11.98-5.42-11.95-12.05l0.06-16c0.02-6.63 5.41-11.98 12.04-11.95z"/>
+				<path class="s21" d="m192 678.53c9.96 12.04 10.95 16.04 10.94 18.04-0.01 2.92-1.18 5.72-3.25 7.77-2.07 2.06-4.87 3.2-7.79 3.19-2.92-0.01-5.71-1.18-7.77-3.25-2.05-2.07-3.2-4.87-3.19-7.79 0.01-2 1.02-5.99 11.06-17.96z"/>
+				<path fill-rule="evenodd" class="s22" d="m186.95 694.52q-0.22 1.19 0.04 2.38 0.26 1.18 0.96 2.18 0.71 0.99 1.74 1.63 1.03 0.63 2.23 0.82"/>
+				<text id="Water Damage Service" style="transform: matrix(1,.004,-0.004,1,225.934,697.658)">
+					<tspan x="0" y="0" class="t16">Water Damage Service
+</tspan>
+				</text>
+				<path fill-rule="evenodd" class="s17" d="m472.98 684.56l7.97 8.02-8.02 7.98"/>
+				<path fill-rule="evenodd" class="s3" d="m139.77 742.35l376 1.36-0.4 110-376-1.37z"/>
+				<path fill-rule="evenodd" class="s23" d="m139.77 742.35l376 1.36-0.01 1.5-375.99-1.36z"/>
+				<g>
+					<path fill-rule="evenodd" class="s24" d="m183.6 788.5l14.05-13.94 13.95 14.05m-23.99-2.09l-0.04 12 20 0.07 0.04-12"/>
+				</g>
+				<g style="opacity: .85">
+					<path class="s25" d="m291.02 777.77q-0.17 0.17-0.27 0.4-0.09 0.23-0.09 0.47 0 0.25 0.09 0.48 0.09 0.22 0.26 0.4l2 2.01q0.17 0.17 0.4 0.26 0.22 0.1 0.47 0.1 0.24 0 0.47-0.09 0.23-0.1 0.41-0.27l4.72-4.69c0.63 1.39 0.81 2.94 0.53 4.44-0.27 1.5-1 2.87-2.09 3.95-1.08 1.07-2.46 1.79-3.96 2.06-1.5 0.27-3.05 0.07-4.44-0.56l-8.67 8.6c-0.49 0.5-1.17 0.77-1.87 0.77-0.71 0-1.38-0.28-1.87-0.78-0.5-0.5-0.78-1.18-0.77-1.88 0-0.7 0.28-1.37 0.78-1.87l8.67-8.61c-0.63-1.39-0.81-2.94-0.53-4.44 0.28-1.49 1.01-2.87 2.09-3.95 1.08-1.07 2.46-1.79 3.96-2.06 1.5-0.27 3.05-0.07 4.44 0.56l-4.72 4.69z"/>
+				</g>
+				<g style="opacity: .85">
+					<path fill-rule="evenodd" class="s26" d="m359.66 774.14l16 0.06c2.76 0.01 4.99 2.26 4.98 5.02l-0.05 14c-0.01 2.76-2.26 4.99-5.02 4.98l-16-0.06c-2.76-0.01-4.99-2.25-4.98-5.01l0.05-14c0.01-2.77 2.26-5 5.02-4.99z"/>
+					<path fill-rule="evenodd" class="s26" d="m354.63 782.13l26 0.09m-18.96-12.07l-0.02 7m12.02-6.95l-0.02 6.99"/>
+				</g>
+				<g style="opacity: .85">
+					<path fill-rule="evenodd" class="s26" d="m457.61 787.5c-3.87-0.01-6.99-3.15-6.97-7.03 0.01-3.87 3.15-6.98 7.02-6.97 3.87 0.01 6.99 3.15 6.97 7.03-0.01 3.87-3.15 6.98-7.02 6.97z"/>
+					<path fill-rule="evenodd" class="s26" d="m444.57 799.45c0.01-2.91 1.39-5.71 3.83-7.76 2.45-2.06 5.76-3.2 9.21-3.19 3.44 0.01 6.75 1.18 9.18 3.26 2.43 2.07 3.79 4.87 3.78 7.79"/>
+				</g>
+				<path fill-rule="evenodd" class="s27" d="m269.95 830.82l115 0.42c1.38 0 2.5 1.12 2.49 2.51 0 1.38-1.13 2.49-2.51 2.49l-115-0.42c-1.38-0.01-2.49-1.13-2.49-2.51 0.01-1.38 1.13-2.5 2.51-2.49z"/>
+			</g>
+		</g>
+	</g>
+</svg>

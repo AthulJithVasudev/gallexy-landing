@@ -30,6 +30,7 @@ export interface PillNavProps {
   bounce?: number;
   stretch?: number;
   collapse?: 'auto' | 'always' | 'never';
+  placement?: 'top' | 'bottom';
   onMenuToggle?: (open: boolean) => void;
   intro?: boolean;
   ariaLabel?: string;

@@ -44,6 +44,7 @@ export interface LogoLoopProps {
   draggable?: boolean;
   scrollBoost?: number;
   intro?: boolean;
+  startDelay?: number;
   renderItem?: (item: LogoItem, key: React.Key) => React.ReactNode;
   ariaLabel?: string;
   className?: string;

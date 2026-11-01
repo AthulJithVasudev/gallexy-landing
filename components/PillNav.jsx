@@ -160,6 +160,7 @@ const PillNav = ({
   collapse = 'auto',
   onMenuToggle,
   ariaLabel = 'Main',
+  placement = 'bottom',
   className = '',
   style
 }) => {
@@ -616,9 +617,14 @@ const PillNav = ({
     const width = panel.offsetWidth;
     const height = panel.offsetHeight;
     const header = joined ? root.offsetHeight : (toggleRef.current?.offsetHeight ?? 44);
+    const isBottom = placement === 'bottom';
     const start = joined
-      ? `inset(0px 0px ${Math.max(0, height - header)}px 0px round ${header / 2}px)`
-      : `inset(0px 0px ${Math.max(0, height - header)}px ${Math.max(0, width - header)}px round ${header / 2}px)`;
+      ? isBottom
+        ? `inset(${Math.max(0, height - header)}px 0px 0px 0px round ${header / 2}px)`
+        : `inset(0px 0px ${Math.max(0, height - header)}px 0px round ${header / 2}px)`
+      : isBottom
+        ? `inset(${Math.max(0, height - header)}px 0px 0px ${Math.max(0, width - header)}px round ${header / 2}px)`
+        : `inset(0px 0px ${Math.max(0, height - header)}px ${Math.max(0, width - header)}px round ${header / 2}px)`;
     const end = 'inset(0px 0px 0px 0px round 24px)';
     const rows = panel.querySelectorAll('li');
     const running = [];
@@ -747,6 +753,7 @@ const PillNav = ({
       data-collapsed={collapsed ? '' : undefined}
       data-open={open ? '' : undefined}
       data-panel={panelShown ? '' : undefined}
+      data-placement={placement}
       style={{ ...vars, ...style }}
       aria-label={ariaLabel}
     >

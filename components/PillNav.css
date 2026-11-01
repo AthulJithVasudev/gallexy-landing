@@ -465,3 +465,9 @@
     transition: none;
   }
 }
+
+.pill-nav[data-placement='bottom'] .pill-nav__panel {
+  top: auto !important;
+  bottom: 0 !important;
+  padding: 6px 6px calc(var(--pn-h) + 6px) !important;
+}

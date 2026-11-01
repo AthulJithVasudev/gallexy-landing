@@ -112,7 +112,8 @@ const createEngine = (root, track, config, setLayout) => {
     raf: 0,
     last: 0,
     reduced: !!query?.matches,
-    destroyed: false
+    destroyed: false,
+    mountTime: typeof performance !== "undefined" ? performance.now() : 0
   };
 
   const collect = () => {
@@ -543,7 +544,8 @@ const createEngine = (root, track, config, setLayout) => {
     const travel = Math.sign(cfg.speed) || 1;
     const paused = st.focused || (st.hovered && cfg.hoverValue !== undefined);
     const pausedSpeed = st.focused ? 0 : (cfg.hoverValue ?? 0);
-    let target = st.reduced ? 0 : paused ? pausedSpeed * travel * cfg.dirSign : cfg.speed * cfg.dirSign;
+    const isDelaying = (now - st.mountTime) < (cfg.startDelay || 0);
+    let target = st.reduced || isDelaying ? 0 : paused ? pausedSpeed * travel * cfg.dirSign : cfg.speed * cfg.dirSign;
     if (cfg.scrollBoost > 0 && !st.reduced) {
       st.scrollVel *= Math.exp(-dt / 0.18);
       if (Math.abs(st.scrollVel) > 1) busy = true;
@@ -902,6 +904,7 @@ export const LogoLoop = memo(
     draggable = true,
     scrollBoost = 0,
     intro = true,
+    startDelay = 0,
     renderItem,
     ariaLabel = 'Partner logos',
     className,
@@ -930,6 +933,7 @@ export const LogoLoop = memo(
       draggable,
       scrollBoost,
       intro,
+      startDelay,
       scaleOnHover,
       labels,
       links: Array.isArray(logos) ? logos.some(item => item?.href) : false

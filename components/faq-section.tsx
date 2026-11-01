@@ -58,7 +58,7 @@ function FaqItem({
 }) {
   const id = useId()
   const icon =
-    'absolute inset-0 size-6 transition-all duration-200 motion-reduce:transition-none'
+    'absolute inset-0 size-6 transition-[transform,opacity] duration-200 motion-reduce:transition-none'
 
   return (
     <div
@@ -75,10 +75,10 @@ function FaqItem({
           aria-expanded={open}
           aria-controls={`${id}-p`}
           onClick={onToggle}
-          className="flex w-full items-start gap-4 rounded-lg p-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+          className="flex w-full items-start gap-4 rounded-lg p-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-[var(--red)]"
         >
           <span
-            className="relative mt-0.5 size-6 shrink-0 text-neutral-700 dark:text-neutral-50"
+            className="relative mt-0.5 size-6 shrink-0 text-[var(--muted)]"
             aria-hidden="true"
           >
             <ChevronUp
@@ -92,7 +92,7 @@ function FaqItem({
               }`}
             />
           </span>
-          <span className="text-lg font-medium leading-7 text-neutral-800 dark:text-neutral-200">
+          <span className="text-lg font-medium leading-7 text-[var(--foreground)]">
             {faq.q}
           </span>
         </button>
@@ -106,7 +106,7 @@ function FaqItem({
         }`}
       >
         <div className="overflow-hidden">
-          <p className="pr-4 pb-4 pl-14 leading-relaxed text-neutral-600 dark:text-neutral-400">
+          <p className="pr-4 pb-4 pl-14 leading-relaxed text-[var(--muted)]">
             <span className="sr-only">{faq.a}</span>
             <span aria-hidden="true">
               {faq.a.split(' ').map((w, k) => (
@@ -139,20 +139,23 @@ export default function FaqSection() {
       className="mx-auto w-full max-w-7xl px-4 py-20 md:px-8 md:py-32"
     >
       <style>{CSS}</style>
+      <div className="text-center">
+        <span className="eyebrow inline-block">Common Queries</span>
+      </div>
       <h2
         id="faq-heading"
-        className="text-center text-4xl leading-[1.1] font-medium tracking-tighter text-neutral-800 md:text-5xl dark:text-neutral-50"
+        className="text-center text-4xl leading-[1.1] font-bold tracking-tight text-[var(--foreground)] md:text-5xl"
       >
-        Frequently asked questions
+        Frequently Asked Questions
       </h2>
-      <p className="mx-auto mt-4 max-w-lg text-center text-neutral-600 dark:text-neutral-400">
+      <p className="mx-auto mt-4 max-w-lg text-center text-[var(--muted)]">
         We are here to help you with any questions you may have. If you can’t
         find what you need, please{' '}
         <a
           href={`tel:${phone}`}
-          className="font-medium text-red-600 underline underline-offset-4 decoration-red-600 hover:opacity-85 focus-visible:rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 dark:text-red-500 dark:decoration-red-500"
+          className="font-medium text-[var(--red)] underline underline-offset-4 decoration-[var(--red)] hover:opacity-85 focus-visible:rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--red)]"
         >
-          Call or WhatsApp us
+          Call or WhatsApp Us
         </a>
         .
       </p>
