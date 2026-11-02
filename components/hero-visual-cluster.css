@@ -5,7 +5,8 @@
 .hero-visual-cluster {
   position: relative;
   width: 100%;
-  max-width: min(375px, calc((100svh - 260px) * 0.697));
+  max-width: min(420px, calc((100svh - 220px) * 0.697));
+  overflow: visible;
   aspect-ratio: 657 / 942;
   margin: 0 auto;
   display: flex;
@@ -18,7 +19,7 @@
 /* Background Radial Blob (themed for light and dark) */
 .hero-cluster-blob {
   position: absolute;
-  inset: 6% 2% 6% 2%;
+  inset: 4% 0% 4% 0%;
   border-radius: 46% 54% 50% 50% / 52% 48% 52% 48%;
   background: radial-gradient(
     circle at 48% 46%,
@@ -120,19 +121,19 @@
 
 .hero-card-pos-1 {
   top: 48%;
-  left: -5%;
+  left: -2%;
   animation-delay: 0.2s;
 }
 
 .hero-card-pos-2 {
-  top: 14%;
-  right: -3%;
+  top: 13%;
+  right: 0%;
   animation-delay: 0.35s;
 }
 
 .hero-card-pos-3 {
-  top: 76%;
-  right: -3%;
+  top: 75%;
+  right: 0%;
   animation-delay: 0.5s;
 }
 
@@ -388,14 +389,14 @@
 
 @media (max-width: 850px) {
   .hero-visual-cluster {
-    max-width: 320px;
+    max-width: 350px;
     margin: 36px auto 0;
   }
 }
 
 @media (max-width: 640px) {
   .hero-visual-cluster {
-    max-width: 300px;
+    max-width: 310px;
     margin: 28px auto 0;
   }
 

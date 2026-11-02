@@ -40,11 +40,13 @@ const galaxyEmblem = '/images/galaxy-emblem.webp'
 const brandLogos = [
   { src: '/images/logos/xiaomi.svg', alt: 'Xiaomi', title: 'Xiaomi', width: 32, height: 32 },
   { src: '/images/logos/redmi.svg', alt: 'Redmi', title: 'Redmi', width: 80, height: 23 },
+  { src: '/images/logos/POCO-Emblem.png', alt: 'POCO', title: 'POCO', width: 46, height: 26 },
   { src: '/images/logos/motorola.svg', alt: 'Motorola', title: 'Motorola', width: 96, height: 22 },
   { src: '/images/logos/cmf.svg', alt: 'CMF', title: 'CMF', width: 48, height: 32 },
   { src: '/images/logos/nothing.svg', alt: 'Nothing', title: 'Nothing', width: 100, height: 18 },
   { src: '/images/logos/xiaomi.svg', alt: 'Xiaomi', title: 'Xiaomi', width: 32, height: 32 },
   { src: '/images/logos/redmi.svg', alt: 'Redmi', title: 'Redmi', width: 80, height: 23 },
+  { src: '/images/logos/POCO-Emblem.png', alt: 'POCO', title: 'POCO', width: 46, height: 26 },
   { src: '/images/logos/motorola.svg', alt: 'Motorola', title: 'Motorola', width: 96, height: 22 },
   { src: '/images/logos/cmf.svg', alt: 'CMF', title: 'CMF', width: 48, height: 32 },
   { src: '/images/logos/nothing.svg', alt: 'Nothing', title: 'Nothing', width: 100, height: 18 },
@@ -131,15 +133,7 @@ const SectionHeading = memo(function SectionHeading({
   )
 })
 
-const ROTATING_PHRASES = [
-  'made simple.',
-  'done right.',
-  'without the wait.',
-  'with warranty.',
-]
-
 export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: React.ReactNode } = {}) {
-  const [phraseIndex, setPhraseIndex] = useState(0)
   const [dark, setDark] = useState(true)
   const [activeHref, setActiveHref] = useState('#top')
   const [isNavVisible, setIsNavVisible] = useState(true)
@@ -147,46 +141,6 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
   const isMenuOpenRef = useRef(isMenuOpen)
   isMenuOpenRef.current = isMenuOpen
   const shouldReduceMotion = useReducedMotion()
-
-  // Rotating red phrase cycling: starts after sequence (~2.2s), pauses when tab hidden
-  useEffect(() => {
-    if (shouldReduceMotion) return
-
-    let intervalId: ReturnType<typeof setInterval> | null = null
-    let timeoutId: ReturnType<typeof setTimeout> | null = null
-
-    const startCycling = () => {
-      if (intervalId) clearInterval(intervalId)
-      intervalId = setInterval(() => {
-        if (document.visibilityState === 'visible') {
-          setPhraseIndex((prev) => (prev + 1) % ROTATING_PHRASES.length)
-        }
-      }, 3000)
-    }
-
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        if (intervalId) {
-          clearInterval(intervalId)
-          intervalId = null
-        }
-      } else {
-        startCycling()
-      }
-    }
-
-    timeoutId = setTimeout(() => {
-      startCycling()
-    }, 2200)
-
-    document.addEventListener('visibilitychange', onVisibilityChange)
-
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId)
-      if (intervalId) clearInterval(intervalId)
-      document.removeEventListener('visibilitychange', onVisibilityChange)
-    }
-  }, [shouldReduceMotion])
 
   const heroActionsVariants = useMemo(
     () => ({
@@ -497,21 +451,9 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
 
               {/* 150ms & 270ms: h1 lines 1 & 2 */}
               <h1 className="hero-h1">
-                <span className="sr-only">Phone repairs, made simple.</span>
-                <span aria-hidden="true">
-                  <span className="hero-h1-line hero-h1-line-1">Phone repairs,</span>
-                  <span className="hero-h1-line hero-h1-line-2">
-                    <span className="hero-rotator-grid">
-                      {ROTATING_PHRASES.map((phrase, idx) => (
-                        <span
-                          key={phrase}
-                          className={`hero-rotator-item ${idx === phraseIndex ? 'is-active' : ''}`}
-                        >
-                          <em>{phrase}</em>
-                        </span>
-                      ))}
-                    </span>
-                  </span>
+                <span className="hero-h1-line hero-h1-line-1">Phone repairs,</span>
+                <span className="hero-h1-line hero-h1-line-2">
+                  <em>made simple.</em>
                 </span>
               </h1>
 
@@ -598,7 +540,7 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
               fadeOutWidth={0.12}
               intro={false}
               startDelay={900}
-              ariaLabel="Brands we service: Xiaomi, Redmi, Motorola, CMF, Nothing"
+              ariaLabel="Brands we service: Xiaomi, Redmi, POCO, Motorola, CMF, Nothing"
             />
           </section>
         </div>
