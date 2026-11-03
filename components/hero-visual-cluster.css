@@ -387,67 +387,13 @@
    RESPONSIVE DESIGN (Mobile & Tablet)
    ========================================================================== */
 
+/* Mobile & Tablet: Hero visual cluster is desktop-only and completely removed on phones */
 @media (max-width: 850px) {
-  .hero-visual-cluster {
-    max-width: 350px;
-    margin: 36px auto 0;
-  }
-}
-
-@media (max-width: 640px) {
-  .hero-visual-cluster {
-    max-width: 310px;
-    margin: 28px auto 0;
-  }
-
-  .hero-phone-rotate {
-    transform: rotate(7deg) scale(0.95);
-  }
-
-  /* Hide Card 3 on mobile as requested */
-  .hero-card-pos-3 {
+  .hero-visual-cluster,
+  .hero-cluster-blob,
+  .hero-phone-container,
+  .hero-card-pos {
     display: none !important;
-  }
-
-  /* Scale down cards 1 and 2, but text never below 12px */
-  .hero-card-pos-1 {
-    top: 48%;
-    left: 0%;
-  }
-
-  .hero-card-pos-2 {
-    top: 10%;
-    right: 0%;
-  }
-
-  .hero-card-btn {
-    padding: 8px 12px;
-    gap: 8px;
-    border-radius: 12px;
-  }
-
-  .hero-card-icon-wrap {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-  }
-
-  .hero-card-icon-wrap svg {
-    width: 15px;
-    height: 15px;
-  }
-
-  .hero-card-title {
-    font-size: 12.5px;
-  }
-
-  .hero-card-sub {
-    font-size: 12px;
-  }
-
-  .hero-popover {
-    width: 220px;
-    padding: 12px;
   }
 }
 
@@ -566,44 +512,7 @@
   animation-delay: calc(var(--seq) * 1440ms) !important; /* 1040ms + 400ms */
 }
 
-/* MOBILE (under 768px): One-shot IntersectionObserver 25% visibility trigger */
-@media (max-width: 767px) {
-  .hero-visual-cluster:not(.is-visible) .hero-phone-entrance,
-  .hero-visual-cluster:not(.is-visible) .hero-card-entrance {
-    animation-play-state: paused;
-  }
-  .hero-visual-cluster.is-visible .hero-phone-entrance,
-  .hero-visual-cluster.is-visible .hero-card-entrance {
-    animation-play-state: running;
-  }
 
-  /* Reduce blur to 5px on mobile */
-  @keyframes hero-phone-enter-kf {
-    from {
-      opacity: 0;
-      transform: translateY(90px) rotate(3deg);
-      filter: blur(5px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) rotate(0deg);
-      filter: blur(0px);
-    }
-  }
-
-  @keyframes hero-card-enter-kf {
-    from {
-      opacity: 0;
-      transform: translateY(40px) scale(0.96);
-      filter: blur(5px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      filter: blur(0px);
-    }
-  }
-}
 
 /* prefers-reduced-data: remove blur, keep translate & opacity */
 @media (prefers-reduced-data: reduce) {

@@ -26,95 +26,38 @@ import FaqSection from './faq-section'
 import HeroVisualCluster from './hero-visual-cluster'
 import { AnimatedThemeToggler } from './ui/animated-theme-toggler'
 import { WhatsAppIcon } from './whatsapp-icon'
+import {
+  siteConfig,
+  brandLogos,
+  servicesConfig,
+} from '@/lib/site-config'
 
-const phone = '+919496696934'
-const whatsapp = 'https://wa.me/919496696934'
-const mapsUrl =
-  'https://www.google.com/maps/place/Galaxy+services/@10.3022082,76.3356451,19.62z/data=!4m6!3m5!1s0x3b0803a3a3458ead:0x5d92b40509f9c5e2!8m2!3d10.3021022!4d76.3361788!16s%2Fg%2F11gjqp92bm?entry=ttu'
-const mapsEmbedUrl =
-  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d980.7!2d76.3356451!3d10.3022082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b0803a3a3458ead%3A0x5d92b40509f9c5e2!2sGalaxy%20services!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin'
-const galaxyLogo = '/images/galaxy-logo-trimmed.webp'
-const galaxyWordmark = '/images/galaxy-logo-trimmed.webp'
-const galaxyEmblem = '/images/galaxy-emblem.webp'
+const serviceIconMap: Record<string, React.ComponentType<{ 'aria-hidden'?: boolean | 'true' | 'false'; className?: string }>> = {
+  smartphone: Smartphone,
+  battery: Battery,
+  'plug-zap': PlugZap,
+  droplets: Droplets,
+  unlock: Unlock,
+  'mic-2': Mic2,
+  wrench: Wrench,
+  camera: Camera,
+}
 
-const brandLogos = [
-  { src: '/images/logos/xiaomi.svg', alt: 'Xiaomi', title: 'Xiaomi', width: 32, height: 32 },
-  { src: '/images/logos/redmi.svg', alt: 'Redmi', title: 'Redmi', width: 80, height: 23 },
-  { src: '/images/logos/POCO-Emblem.png', alt: 'POCO', title: 'POCO', width: 46, height: 26 },
-  { src: '/images/logos/motorola.svg', alt: 'Motorola', title: 'Motorola', width: 96, height: 22 },
-  { src: '/images/logos/cmf.svg', alt: 'CMF', title: 'CMF', width: 48, height: 32 },
-  { src: '/images/logos/nothing.svg', alt: 'Nothing', title: 'Nothing', width: 100, height: 18 },
-  { src: '/images/logos/xiaomi.svg', alt: 'Xiaomi', title: 'Xiaomi', width: 32, height: 32 },
-  { src: '/images/logos/redmi.svg', alt: 'Redmi', title: 'Redmi', width: 80, height: 23 },
-  { src: '/images/logos/POCO-Emblem.png', alt: 'POCO', title: 'POCO', width: 46, height: 26 },
-  { src: '/images/logos/motorola.svg', alt: 'Motorola', title: 'Motorola', width: 96, height: 22 },
-  { src: '/images/logos/cmf.svg', alt: 'CMF', title: 'CMF', width: 48, height: 32 },
-  { src: '/images/logos/nothing.svg', alt: 'Nothing', title: 'Nothing', width: 100, height: 18 },
-]
-
-const services = [
-  {
-    icon: Smartphone,
-    title: 'Screen Replacement',
-    description: 'Cracked, damaged, or unresponsive screens.',
-    query: 'Hi Galaxy Services, I would like to enquire about screen replacement for my phone.',
-  },
-  {
-    icon: Battery,
-    title: 'Battery Issues',
-    description: 'Battery draining quickly or struggling to hold charge.',
-    query: 'Hi Galaxy Services, I would like to enquire about battery issues with my phone.',
-  },
-  {
-    icon: PlugZap,
-    title: 'Charging Problems',
-    description: 'Charging port issues and charging faults.',
-    query: 'Hi Galaxy Services, I would like to enquire about charging problems with my phone.',
-  },
-  {
-    icon: Droplets,
-    title: 'Water Damage',
-    description: 'Assessment for liquid-related phone damage.',
-    query: 'Hi Galaxy Services, I would like to enquire about water damage assessment for my phone.',
-  },
-  {
-    icon: Unlock,
-    title: 'Software Issues',
-    description: 'Troubleshooting, updates, and software problems.',
-    query: 'Hi Galaxy Services, I would like to enquire about software troubleshooting for my phone.',
-  },
-  {
-    icon: Mic2,
-    title: 'Speaker & Microphone',
-    description: 'Sound, call audio, and microphone issues.',
-    query: 'Hi Galaxy Services, I would like to enquire about speaker or microphone issues with my phone.',
-  },
-  {
-    icon: Wrench,
-    title: 'Back Glass Damage',
-    description: 'Cracked or damaged rear glass.',
-    query: 'Hi Galaxy Services, I would like to enquire about back glass damage repair for my phone.',
-  },
-  {
-    icon: Camera,
-    title: 'Camera Problems',
-    description: 'Camera faults, focusing issues, or damaged lenses.',
-    query: 'Hi Galaxy Services, I would like to enquire about camera problems on my phone.',
-  },
-]
-
-
-
-
+const services = servicesConfig.map((service) => ({
+  ...service,
+  icon: serviceIconMap[service.icon] || Smartphone,
+}))
 const easeOutCustom = [0.22, 1, 0.36, 1] as const
 
 const SectionHeading = memo(function SectionHeading({
   eyebrow,
   title,
+  id,
   children,
 }: {
   eyebrow: string
   title: string
+  id?: string
   children?: React.ReactNode
 }) {
   const shouldReduceMotion = useReducedMotion()
@@ -127,7 +70,7 @@ const SectionHeading = memo(function SectionHeading({
       transition={{ duration: 0.55, ease: easeOutCustom }}
     >
       <span className="eyebrow">{eyebrow}</span>
-      <h2>{title}</h2>
+      <h2 id={id}>{title}</h2>
       {children}
     </motion.div>
   )
@@ -384,8 +327,8 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
         label: 'Visit & Connect',
         description: 'Chalakudy town center. Open Mon–Sat 10:30 AM–7:00 PM.',
         links: [
-          { label: 'Call: +91 94966 96934', href: `tel:${phone}` },
-          { label: 'Chat on WhatsApp', href: whatsapp },
+          { label: `Call: ${siteConfig.phoneDisplay}`, href: `tel:${siteConfig.phone}` },
+          { label: 'Chat on WhatsApp', href: siteConfig.whatsappUrl },
           { label: 'Find Us on Maps', href: '#location' },
         ],
       },
@@ -399,11 +342,16 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
         className={`card-nav-header ${!isNavVisible ? 'is-nav-hidden' : ''}`}
       >
         <CardNav
-          logo={galaxyLogo}
-          logoAlt="Galaxy Services"
+          logo={siteConfig.assets.wordmark}
+          logoAlt={siteConfig.name}
           logoHref="#top"
           items={cardNavItems}
-          cta={{ label: 'Call Now', href: `tel:${phone}` }}
+          cta={{
+            label: 'Call Now',
+            href: `tel:${siteConfig.phone}`,
+            ariaLabel: `Call ${siteConfig.name}`,
+          }}
+          activeHref={activeHref}
           accentColor="#e11d2e"
           theme={dark ? 'dark' : 'light'}
           surface="glass"
@@ -431,10 +379,11 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
         />
       </header>
 
-      <main id="top">
+      <main id="main">
+        <div id="top" />
         {/* HERO PAGE: HERO CONTENT + AUTHORIZED SERVICE PARTNER AT BOTTOM (VISIBLE AT FIRST GLANCE) */}
         <div className="hero-page">
-          <section className="hero section-wrap" aria-label="Galaxy repair center overview">
+          <section className="hero section-wrap" aria-labelledby="hero-title">
             {/* Optional Hero Corner Accents */}
             <div className="hero-corner-mark hero-corner-tl" aria-hidden="true">+</div>
             <div className="hero-corner-mark hero-corner-tr" aria-hidden="true">+</div>
@@ -450,7 +399,7 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
               </div>
 
               {/* 150ms & 270ms: h1 lines 1 & 2 */}
-              <h1 className="hero-h1">
+              <h1 className="hero-h1" id="hero-title">
                 <span className="hero-h1-line hero-h1-line-1">Phone repairs,</span>
                 <span className="hero-h1-line hero-h1-line-2">
                   <em>made simple.</em>
@@ -467,7 +416,8 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
               <div className="hero-actions hero-anim-actions">
                 <motion.a
                   className="button button-red hero-call-btn"
-                  href={`tel:${phone}`}
+                  href={`tel:${siteConfig.phone}`}
+                  aria-label={`Call ${siteConfig.name}`}
                   whileHover={
                     shouldReduceMotion
                       ? undefined
@@ -483,7 +433,7 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
                 </motion.a>
                 <motion.a
                   className="button button-whatsapp"
-                  href={whatsapp}
+                  href={siteConfig.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="WhatsApp Us (opens in a new tab)"
@@ -503,20 +453,20 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
               </div>
 
               {/* 900ms / 1000ms / 1100ms: Tick items fade up 8px */}
-              <div className="trust-row">
-                <span className="hero-anim-tick-1">
+              <ul className="trust-row" aria-label="Key service highlights">
+                <li className="hero-anim-tick-1">
                   <Check aria-hidden="true" /> Repair Estimates
-                </span>
-                <span className="hero-anim-tick-2">
+                </li>
+                <li className="hero-anim-tick-2">
                   <Check aria-hidden="true" /> Repair Options
-                </span>
-                <span className="hero-anim-tick-3">
+                </li>
+                <li className="hero-anim-tick-3">
                   <Check aria-hidden="true" /> Personalised Service
-                </span>
-              </div>
+                </li>
+              </ul>
             </div>
 
-            <div className="hero-visual-wrap">
+            <div className="hero-visual-wrap desktop-only">
               <HeroVisualCluster phoneImage={heroPhoneImage} />
             </div>
           </section>
@@ -524,9 +474,11 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
           {/* AUTHORIZED SERVICE PARTNER (BOTTOM OF HERO PAGE) */}
           <section
             className="brand-strip section-wrap"
-            aria-label="Authorized service partner"
+            aria-labelledby="brand-strip-label"
           >
-            <span className="strip-label hero-anim-brand-label">Authorized service partner for</span>
+            <span className="strip-label hero-anim-brand-label" id="brand-strip-label">
+              Authorized service partner for
+            </span>
             <LogoLoop
               className="brand-loop"
               logos={brandLogos}
@@ -546,13 +498,14 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
         </div>
 
                 {/* 3. WHAT WE FIX SECTION */}
-        <section className="section-wrap section-space" id="services">
-          <SectionHeading eyebrow="Our Expertise" title="What We Fix">
+        <section className="section-wrap section-space" id="services" aria-labelledby="services-heading">
+          <SectionHeading eyebrow="Our Expertise" title="What We Fix" id="services-heading">
             <p>From cracked glass to charging troubles, our technicians know their way around your device.</p>
           </SectionHeading>
 
-          <motion.div
+          <motion.ul
             className="service-grid"
+            role="list"
             variants={servicesContainerVariants}
             initial="hidden"
             whileInView="visible"
@@ -560,41 +513,47 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
           >
             {services.map((service) => {
               const Icon = service.icon
-              const waLink = `${whatsapp}?text=${encodeURIComponent(service.query)}`
+              const waLink = `${siteConfig.whatsappUrl}?text=${encodeURIComponent(service.query)}`
               return (
-                <motion.a
+                <motion.li
                   key={service.title}
-                  href={waLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="service-card"
                   variants={serviceCardVariants}
-                  aria-label={`Enquire about ${service.title} on WhatsApp (opens in a new tab)`}
-                  whileHover={
-                    shouldReduceMotion
-                      ? undefined
-                      : { y: -4, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }
-                  }
-                  whileTap={
-                    shouldReduceMotion
-                      ? undefined
-                      : { scale: 0.98, transition: { duration: 0.08 } }
-                  }
+                  className="service-card-wrapper"
+                  style={{ listStyle: 'none' }}
                 >
-                  <div className="service-card-top">
-                    <div className="service-icon">
-                      <Icon aria-hidden="true" />
+                  <motion.a
+                    href={waLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="service-card"
+                    style={{ height: '100%' }}
+                    aria-label={`Enquire about ${service.title} on WhatsApp (opens in a new tab)`}
+                    whileHover={
+                      shouldReduceMotion
+                        ? undefined
+                        : { y: -4, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }
+                    }
+                    whileTap={
+                      shouldReduceMotion
+                        ? undefined
+                        : { scale: 0.98, transition: { duration: 0.08 } }
+                    }
+                  >
+                    <div className="service-card-top">
+                      <div className="service-icon">
+                        <Icon aria-hidden="true" />
+                      </div>
+                      <span className="service-wa-indicator" aria-hidden="true">
+                        <WhatsAppIcon />
+                      </span>
                     </div>
-                    <span className="service-wa-indicator" aria-hidden="true">
-                      <WhatsAppIcon />
-                    </span>
-                  </div>
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                </motion.a>
+                    <h3>{service.title}</h3>
+                    <p>{service.description}</p>
+                  </motion.a>
+                </motion.li>
               )
             })}
-          </motion.div>
+          </motion.ul>
 
           <motion.div
             className="services-footer-cta"
@@ -605,7 +564,7 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
           >
             <span className="services-cta-prompt">Not sure what’s wrong?</span>
             <a
-              href={`${whatsapp}?text=${encodeURIComponent("Hi Galaxy Services, I'm not sure what's wrong with my phone and would like to ask about repair options.")}`}
+              href={`${siteConfig.whatsappUrl}?text=${encodeURIComponent("Hi Galaxy Services, I'm not sure what's wrong with my phone and would like to ask about repair options.")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="services-cta-link"
@@ -618,7 +577,7 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
 
 
         {/* 5. LOCATION AND CONTACT SECTION */}
-        <section className="section-wrap section-space" id="location">
+        <section className="section-wrap section-space" id="location" aria-labelledby="location-heading">
           <motion.div
             className="location-card"
             initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
@@ -633,7 +592,7 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.55, delay: 0.1, ease: easeOutCustom }}
             >
-              <SectionHeading eyebrow="Come Say Hello" title="Your Phone Is in Good Hands">
+              <SectionHeading eyebrow="Come Say Hello" title="Your Phone Is in Good Hands" id="location-heading">
                 <p>Have a phone problem? Get in touch to discuss your device or plan your visit.</p>
               </SectionHeading>
 
@@ -642,18 +601,18 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
                 <div className="contact-detail">
                   <MapPin aria-hidden="true" />
                   <div>
-                    <strong><span translate="no">Galaxy Services</span></strong>
+                    <strong><span translate="no">{siteConfig.name}</span></strong>
                     <p>
-                      First Floor, Swarnam Arcade, KSRTC Bus Stand Rd
+                      {siteConfig.address.street}
                       <br />
-                      Opposite Reliance Fresh &amp; Surabhi Theatre, South Junction
+                      {siteConfig.address.landmark}
                       <br />
-                      South <span translate="no">Chalakudy</span>, <span translate="no">Chalakudy</span>, Kerala 680307
+                      {siteConfig.address.subLocality}, <span translate="no">{siteConfig.address.locality}</span>, {siteConfig.address.region} {siteConfig.address.postalCode}
                     </p>
                     <p className="contact-address-phone">
-                      <a href={`tel:${phone}`} aria-label={`Call us at ${phone}`}>
+                      <a href={`tel:${siteConfig.phone}`} aria-label={`Call ${siteConfig.name} at ${siteConfig.phoneDisplay}`}>
                         <Phone aria-hidden="true" />
-                        <span>+91 94966 96934</span>
+                        <span>{siteConfig.phoneDisplay}</span>
                       </a>
                     </p>
                   </div>
@@ -664,22 +623,26 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
                   <div>
                     <strong>Working Hours</strong>
                     <p>
-                      Monday – Saturday: 10:30 AM – 7:00 PM
+                      {siteConfig.hours.displayDays}: {siteConfig.hours.displayTime}
                       <br />
                       <span style={{ color: 'var(--red)', fontSize: '11px', fontWeight: 600 }}>
-                        Sunday: Closed
+                        {siteConfig.hours.displayClosed}
                       </span>
                     </p>
                   </div>
                 </div>
 
                 <div className="location-actions">
-                  <a className="button button-red button-prominent" href={`tel:${phone}`}>
+                  <a
+                    className="button button-red button-prominent"
+                    href={`tel:${siteConfig.phone}`}
+                    aria-label={`Call ${siteConfig.name}`}
+                  >
                     <Phone aria-hidden="true" /> Call Now
                   </a>
                   <a
                     className="button button-whatsapp"
-                    href={whatsapp}
+                    href={siteConfig.whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="WhatsApp Us (opens in a new tab)"
@@ -688,7 +651,7 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
                   </a>
                   <a
                     className="button button-outline button-with-arrow location-directions-desktop"
-                    href={mapsUrl}
+                    href={siteConfig.maps.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Get Directions in Google Maps (opens in a new tab)"
@@ -712,7 +675,7 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
               {/* 1, 2, 3: Mobile Location Header */}
               <div className="mobile-map-header">
                 <span className="mobile-map-label">Find Our Location</span>
-                <h2 className="mobile-map-title">Visit <span translate="no">Galaxy Services</span></h2>
+                <h3 className="mobile-map-title">Visit <span translate="no">{siteConfig.name}</span></h3>
                 <p className="mobile-map-desc">
                   We’re easy to find, right near the KSRTC Bus Stand in <span translate="no">Chalakudy</span>.
                 </p>
@@ -722,7 +685,7 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
               <div className="map-frame">
                 <iframe
                   title="Galaxy Services Location Map - Chalakudy"
-                  src={mapsEmbedUrl}
+                  src={siteConfig.maps.embedUrl}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
@@ -738,18 +701,18 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
                 <div className="contact-detail">
                   <MapPin aria-hidden="true" />
                   <div>
-                    <strong><span translate="no">Galaxy Services</span></strong>
+                    <strong><span translate="no">{siteConfig.name}</span></strong>
                     <p>
-                      First Floor, Swarnam Arcade, KSRTC Bus Stand Rd
+                      {siteConfig.address.street}
                       <br />
-                      Opposite Reliance Fresh &amp; Surabhi Theatre, South Junction
+                      {siteConfig.address.landmark}
                       <br />
-                      South <span translate="no">Chalakudy</span>, <span translate="no">Chalakudy</span>, Kerala 680307
+                      {siteConfig.address.subLocality}, <span translate="no">{siteConfig.address.locality}</span>, {siteConfig.address.region} {siteConfig.address.postalCode}
                     </p>
                     <p className="contact-address-phone">
-                      <a href={`tel:${phone}`} aria-label={`Call us at ${phone}`}>
+                      <a href={`tel:${siteConfig.phone}`} aria-label={`Call ${siteConfig.name} at ${siteConfig.phoneDisplay}`}>
                         <Phone aria-hidden="true" />
-                        <span>+91 94966 96934</span>
+                        <span>{siteConfig.phoneDisplay}</span>
                       </a>
                     </p>
                   </div>
@@ -760,10 +723,10 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
                   <div>
                     <strong>Working Hours</strong>
                     <p>
-                      Monday – Saturday: 10:30 AM – 7:00 PM
+                      {siteConfig.hours.displayDays}: {siteConfig.hours.displayTime}
                       <br />
                       <span style={{ color: 'var(--red)', fontSize: '11px', fontWeight: 600 }}>
-                        Sunday: Closed
+                        {siteConfig.hours.displayClosed}
                       </span>
                     </p>
                   </div>
@@ -772,7 +735,7 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
 
               {/* 7: Full-width "Open in Google Maps" button */}
               <a
-                href={mapsUrl}
+                href={siteConfig.maps.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mobile-map-btn"
@@ -801,10 +764,10 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
         <div className="section-wrap footer-grid">
           {/* Column 1 — Brand */}
           <div className="footer-col footer-col-brand">
-            <a href="#top" className="footer-brand" aria-label="Galaxy Services home">
+            <a href="#top" className="footer-brand" aria-label={`${siteConfig.name} home`}>
               <img
                 className="footer-logo-emblem"
-                src={galaxyEmblem}
+                src={siteConfig.assets.emblem}
                 alt=""
                 width={32}
                 height={32}
@@ -812,7 +775,7 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
               />
               <img
                 className="footer-logo-wordmark"
-                src={galaxyWordmark}
+                src={siteConfig.assets.wordmark}
                 alt=""
                 width={88}
                 height={26}
@@ -824,13 +787,13 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
               Authorized mobile service center in <span translate="no">Chalakudy</span>, Kerala.
             </p>
             <div className="footer-social-links">
-              <a href={whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp (opens in a new tab)">
+              <a href={siteConfig.whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp (opens in a new tab)">
                 <WhatsAppIcon />
               </a>
-              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" aria-label="Google Maps (opens in a new tab)">
+              <a href={siteConfig.maps.url} target="_blank" rel="noopener noreferrer" aria-label="Google Maps (opens in a new tab)">
                 <MapPin aria-hidden="true" />
               </a>
-              <a href={`tel:${phone}`} aria-label="Call Galaxy Services">
+              <a href={`tel:${siteConfig.phone}`} aria-label={`Call ${siteConfig.name}`}>
                 <Phone aria-hidden="true" />
               </a>
             </div>
@@ -838,26 +801,26 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
 
           {/* Column 2 — Explore */}
           <div className="footer-col footer-col-nav">
-            <h4 className="footer-heading">Explore</h4>
+            <h3 className="footer-heading">Explore</h3>
             <ul className="footer-links">
-              <li><a href="#top">Home</a></li>
-              <li><a href="#services">Services</a></li>
-              <li><a href="#location">Location</a></li>
-              <li><a href="#faqs">FAQs</a></li>
+              <li><a href="#top" aria-current={activeHref === '#top' ? 'page' : undefined}>Home</a></li>
+              <li><a href="#services" aria-current={activeHref === '#services' ? 'true' : undefined}>Services</a></li>
+              <li><a href="#location" aria-current={activeHref === '#location' ? 'true' : undefined}>Location</a></li>
+              <li><a href="#faqs" aria-current={activeHref === '#faqs' ? 'true' : undefined}>FAQs</a></li>
             </ul>
           </div>
 
           {/* Column 3 — Visit Us */}
           <div className="footer-col footer-col-visit">
-            <h4 className="footer-heading">Visit Us</h4>
+            <h3 className="footer-heading">Visit Us</h3>
             <address className="footer-address">
               <strong><span translate="no">Galaxy Services</span></strong>
               <span>First Floor, Swarnam Arcade</span>
               <span>KSRTC Bus Stand Rd, South Junction</span>
               <span>South <span translate="no">Chalakudy</span>, Kerala 680307</span>
-              <a href={`tel:${phone}`} className="footer-phone-link" aria-label={`Call us at ${phone}`}>
+              <a href={`tel:${siteConfig.phone}`} className="footer-phone-link" aria-label={`Call ${siteConfig.name} at ${siteConfig.phoneDisplay}`}>
                 <Phone aria-hidden="true" />
-                <span>+91 94966 96934</span>
+                <span>{siteConfig.phoneDisplay}</span>
               </a>
             </address>
             <div className="footer-hours">
@@ -867,7 +830,7 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
             </div>
             <div className="footer-action">
               <a
-                href={mapsUrl}
+                href={siteConfig.maps.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-directions-btn"
@@ -890,19 +853,20 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
       </motion.footer>
 
       {/* PERSISTENT MOBILE BOTTOM BAR */}
-      <div className="mobile-bottom-bar" role="navigation" aria-label="Quick contact">
-        <a className="button button-red" href={`tel:${phone}`}>
+      <nav className="mobile-bottom-bar" aria-label="Quick contact">
+        <a className="button button-red" href={`tel:${siteConfig.phone}`} aria-label={`Call ${siteConfig.name}`}>
           <Phone aria-hidden="true" /> Call Now
         </a>
         <a
           className="button button-whatsapp"
-          href={whatsapp}
+          href={siteConfig.whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="WhatsApp Us (opens in a new tab)"
         >
           <WhatsAppIcon /> WhatsApp
         </a>
-      </div>
+      </nav>
     </div>
   )
 }

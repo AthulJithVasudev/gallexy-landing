@@ -154,7 +154,8 @@ const CardNav = ({
   className = '',
   style,
   actions,
-  placement = 'top'
+  placement = 'top',
+  activeHref
 }) => {
   const contentId = useId();
   const rootRef = useRef(null);
@@ -459,6 +460,7 @@ const CardNav = ({
       target,
       {
         className: wide ? CTA_WIDE : CTA,
+        'aria-label': target.ariaLabel,
         tabIndex: wide && !open ? -1 : undefined,
         onClick: event => {
           target.onClick?.(event);
@@ -544,6 +546,7 @@ const CardNav = ({
                         {
                           className: LINK,
                           'aria-label': link.ariaLabel,
+                          'aria-current': (link.active || (activeHref && link.href === activeHref)) ? 'page' : undefined,
                           tabIndex: open ? undefined : -1,
                           onClick: event => {
                             onLinkClick?.(link, item, event);

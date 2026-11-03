@@ -4,6 +4,7 @@ export interface CardNavLink {
   label: string;
   href?: string;
   ariaLabel?: string;
+  active?: boolean;
 }
 
 export interface CardNavItem {
@@ -17,6 +18,7 @@ export interface CardNavItem {
 export interface CardNavCta {
   label: string;
   href?: string;
+  ariaLabel?: string;
   onClick?: (event: React.MouseEvent) => void;
 }
 
@@ -48,8 +50,8 @@ export interface CardNavProps {
   style?: CSSProperties;
   actions?: ReactNode;
   placement?: 'top' | 'bottom';
+  activeHref?: string;
 }
 
 declare const CardNav: React.FC<CardNavProps>;
 export default CardNav;
-

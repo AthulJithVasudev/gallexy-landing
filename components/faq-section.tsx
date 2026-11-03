@@ -2,29 +2,7 @@
 
 import { useId, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
-
-type Faq = { q: string; a: string }
-
-const phone = '+919496696934'
-
-const FAQS: Faq[] = [
-  {
-    q: 'How much does a phone repair cost?',
-    a: 'Repair costs depend on your phone model, the issue, and the parts required. Contact us to discuss an estimate.',
-  },
-  {
-    q: 'How long will a repair take?',
-    a: 'Repair times depend on the fault, device model, and parts availability. We’ll discuss the expected timeline once we understand the problem.',
-  },
-  {
-    q: 'Can I walk in for a repair?',
-    a: 'Yes, walk-ins are welcome during our business hours.',
-  },
-  {
-    q: 'What if my phone cannot be repaired?',
-    a: 'We’ll explain what we find during the assessment and discuss the available options. Whether a repair is possible depends on the device and the nature of the damage.',
-  },
-]
+import { siteConfig, faqsConfig, FaqItem as Faq } from '@/lib/site-config'
 
 const CSS = `
 @keyframes faq-word {
@@ -47,7 +25,7 @@ const CSS = `
 }
 `
 
-function FaqItem({
+function FaqItemComponent({
   faq,
   open,
   onToggle,
@@ -152,16 +130,27 @@ export default function FaqSection() {
         We are here to help you with any questions you may have. If you can’t
         find what you need, please{' '}
         <a
-          href={`tel:${phone}`}
+          href={`tel:${siteConfig.phone}`}
+          aria-label={`Call ${siteConfig.name}`}
           className="font-medium text-[var(--red)] underline underline-offset-4 decoration-[var(--red)] hover:opacity-85 focus-visible:rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--red)]"
         >
-          Call or WhatsApp Us
+          Call
+        </a>{' '}
+        or{' '}
+        <a
+          href={siteConfig.whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="WhatsApp Galaxy Services (opens in a new tab)"
+          className="font-medium text-[var(--red)] underline underline-offset-4 decoration-[var(--red)] hover:opacity-85 focus-visible:rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--red)]"
+        >
+          WhatsApp Us
         </a>
         .
       </p>
       <div className="mx-auto mt-12 w-full max-w-3xl">
-        {FAQS.map((faq, i) => (
-          <FaqItem
+        {faqsConfig.map((faq, i) => (
+          <FaqItemComponent
             key={faq.q}
             faq={faq}
             open={openIndex === i}
@@ -174,4 +163,3 @@ export default function FaqSection() {
     </section>
   )
 }
-

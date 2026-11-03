@@ -9,7 +9,7 @@
   --background: #F9FAFB;
   --foreground: #111827;
   --card: #FFFFFF;
-  --muted: #6B7280;
+  --muted: #52525B;
   --border: #E5E7EB;
   --red: #DC2626;
   --red-hover: #B91C1C;
@@ -83,6 +83,12 @@ p,
   transform: translateY(0);
   outline: 2px solid var(--red);
   outline-offset: 2px;
+}
+
+/* Global Accessible Focus Visible */
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
 }
 
 /* Global Visible Focus States */
@@ -711,6 +717,14 @@ main#top {
   width: auto;
 }
 
+.brand-loop img[src*="POCO"],
+.brand-loop img[src*="poco"] {
+  height: 23px !important;
+  width: auto;
+  filter: brightness(0) !important;
+  opacity: 0.75;
+}
+
 .brand-loop .logoloop__item:hover img {
   opacity: 1;
   filter: none !important;
@@ -723,6 +737,16 @@ main#top {
   opacity: 0.85;
 }
 
+.dark .brand-strip .brand-loop img[src*="POCO"],
+.dark .brand-strip .brand-loop img[src*="poco"],
+.dark .brand-loop .logoloop__item img[src*="POCO"],
+.dark .brand-loop .logoloop__item img[src*="poco"],
+.dark .brand-loop img[src*="POCO"],
+.dark .brand-loop img[src*="poco"] {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.85;
+}
+
 .dark .brand-strip .brand-loop .logoloop__item:hover img,
 .dark .brand-loop .logoloop__item:hover img {
   filter: grayscale(1) invert(1) brightness(2) !important;
@@ -730,7 +754,11 @@ main#top {
 }
 
 .dark .brand-strip .brand-loop .logoloop__item:hover img[src*="xiaomi"],
-.dark .brand-loop .logoloop__item:hover img[src*="xiaomi"] {
+.dark .brand-loop .logoloop__item:hover img[src*="xiaomi"],
+.dark .brand-strip .brand-loop .logoloop__item:hover img[src*="POCO"],
+.dark .brand-strip .brand-loop .logoloop__item:hover img[src*="poco"],
+.dark .brand-loop .logoloop__item:hover img[src*="POCO"],
+.dark .brand-loop .logoloop__item:hover img[src*="poco"] {
   filter: none !important;
   opacity: 1;
 }
@@ -1662,9 +1690,9 @@ main#top {
     justify-content: center;
   }
 
-  .hero-visual-wrap {
-    width: 100%;
-    margin-top: 36px;
+  .hero-visual-wrap,
+  .desktop-only {
+    display: none !important;
   }
 
   .service-grid {
@@ -1972,9 +2000,9 @@ main#top {
     width: 100%;
   }
 
-  .hero-visual-wrap {
-    width: 100%;
-    margin-top: 36px;
+  .hero-visual-wrap,
+  .desktop-only {
+    display: none !important;
   }
 
   .trust-row {
