@@ -21,9 +21,13 @@ export default function NotFound() {
           href="/"
           className="inline-flex items-center gap-2.5 font-bold tracking-tight text-lg text-[var(--foreground)] no-underline outline-none focus-visible:ring-2 focus-visible:ring-[var(--red)]"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--red)] text-sm font-black text-white">
-            G
-          </span>
+          <img
+            src={siteConfig.assets.emblem}
+            alt=""
+            width={32}
+            height={32}
+            className="size-8 object-contain"
+          />
           <span>{siteConfig.name}</span>
         </Link>
       </header>
@@ -83,4 +87,3 @@ export default function NotFound() {
     </div>
   )
 }
-

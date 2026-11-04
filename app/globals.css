@@ -252,8 +252,10 @@ a,
   pointer-events: none !important;
 }
 
-main#top {
-  padding-top: calc(var(--cn-bar, 60px) + 24px);
+main#main,
+main#top,
+main {
+  padding-top: calc(var(--cn-bar, 60px) + 42px);
 }
 
 .nav-action-btn {
@@ -542,8 +544,8 @@ main#top {
   gap: 36px;
   align-items: center;
   min-height: auto;
-  padding-top: 10px;
-  padding-bottom: 16px;
+  padding-top: 18px;
+  padding-bottom: 24px;
   overflow: visible;
 }
 
@@ -603,18 +605,27 @@ main#top {
 .trust-row {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 16px;
   margin-top: 18px;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
   color: var(--muted);
   font-size: 11px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
+.trust-row li,
 .trust-row span {
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
   gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .trust-row svg {
@@ -624,6 +635,9 @@ main#top {
   color: white;
   background: #22c55e;
   border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .hero-visual-wrap {
@@ -802,6 +816,9 @@ main#top {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .service-card {
@@ -1933,8 +1950,10 @@ main#top {
     transform: translateY(calc(-100% - 24px));
   }
 
-  main#top {
-    padding-top: calc(var(--cn-bar, 60px) + 16px);
+  main#main,
+  main#top,
+  main {
+    padding-top: calc(var(--cn-bar, 60px) + 24px);
   }
 
   .nav-call-btn {

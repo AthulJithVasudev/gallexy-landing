@@ -455,13 +455,16 @@ export default function RepairCenter({ heroPhoneImage }: { heroPhoneImage?: Reac
               {/* 900ms / 1000ms / 1100ms: Tick items fade up 8px */}
               <ul className="trust-row" aria-label="Key service highlights">
                 <li className="hero-anim-tick-1">
-                  <Check aria-hidden="true" /> Repair Estimates
+                  <Check aria-hidden="true" />
+                  <span>Repair Estimates</span>
                 </li>
                 <li className="hero-anim-tick-2">
-                  <Check aria-hidden="true" /> Repair Options
+                  <Check aria-hidden="true" />
+                  <span>Repair Options</span>
                 </li>
                 <li className="hero-anim-tick-3">
-                  <Check aria-hidden="true" /> Personalised Service
+                  <Check aria-hidden="true" />
+                  <span>Personalised Service</span>
                 </li>
               </ul>
             </div>
