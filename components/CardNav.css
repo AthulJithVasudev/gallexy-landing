@@ -301,6 +301,10 @@
   margin-right: 4px;
 }
 
+.card-nav[data-narrow] .card-nav__actions .card-nav__cta {
+  display: none !important;
+}
+
 .card-nav[data-narrow] .card-nav__logo {
   grid-column: 1;
   grid-row: 1;
@@ -373,6 +377,54 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 2px 16px;
+}
+
+/* Instant CSS-driven mobile styling to prevent FOUC / layout flash before JS hydrates */
+@media (max-width: 580px) {
+  .card-nav .card-nav__bar {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .card-nav .card-nav__actions {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    margin-right: 4px;
+  }
+
+  .card-nav .card-nav__actions .card-nav__cta {
+    display: none !important;
+  }
+
+  .card-nav .card-nav__logo {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    padding-left: 14px;
+  }
+
+  .card-nav .card-nav__menu {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .card-nav .card-nav__cards {
+    flex-direction: column;
+  }
+
+  .card-nav .card-nav__card {
+    flex: none;
+    min-height: 0;
+    gap: 10px;
+    padding: 14px 14px 12px;
+  }
+
+  .card-nav .card-nav__links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2px 16px;
+  }
 }
 
 .card-nav__card[data-tinted] {
