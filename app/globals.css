@@ -2000,7 +2000,7 @@ main {
   }
 
   .hero-copy .trust-row {
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .hero h1 {
@@ -2025,8 +2025,15 @@ main {
   }
 
   .trust-row {
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 12px;
+    font-size: 10.5px;
+  }
+
+  .trust-row li {
+    white-space: nowrap;
   }
 
   .section-space {
