@@ -772,7 +772,9 @@ main {
 .dark .brand-strip .brand-loop .logoloop__item:hover img[src*="POCO"],
 .dark .brand-strip .brand-loop .logoloop__item:hover img[src*="poco"],
 .dark .brand-loop .logoloop__item:hover img[src*="POCO"],
-.dark .brand-loop .logoloop__item:hover img[src*="poco"] {
+.dark .brand-loop .logoloop__item:hover img[src*="poco"],
+.dark .brand-strip .brand-loop .logoloop__item:hover img[src*="motorola"],
+.dark .brand-loop .logoloop__item:hover img[src*="motorola"] {
   filter: none !important;
   opacity: 1;
 }
