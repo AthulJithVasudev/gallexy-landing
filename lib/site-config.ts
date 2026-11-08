@@ -42,7 +42,7 @@ export const siteConfig = {
   phoneDisplay: '+91 94966 96934',
   whatsappNumber: '919496696934',
   whatsappUrl: 'https://wa.me/919496696934',
-  email: 'contact@thegalaxyservices.in',
+  email: 'gallexycochin@gmail.com',
 
   address: {
     street: 'First Floor, Swarnam Arcade, KSRTC Bus Stand Rd',
