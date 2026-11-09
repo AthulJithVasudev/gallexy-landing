@@ -37,7 +37,7 @@ export const siteConfig = {
   tagline: 'Phone repairs, made simple.',
   description:
     'Galaxy Services in Chalakudy provides expert screen, battery, and charging port repairs. Call or WhatsApp us today for a reliable phone repair estimate.',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://thegalaxyservices.in',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.thegalaxyservices.in',
   phone: '+919496696934',
   phoneDisplay: '+91 94966 96934',
   whatsappNumber: '919496696934',
